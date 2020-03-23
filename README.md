@@ -14,6 +14,10 @@
     mvn clean test //<-- the test command is optional, though recommended
     mvn exec:java
 
+    // If you want to run via Docker Image
+    docker build . -t css-backend
+    docker run -p 8081:8081 css-backend
+
     // To run Angular web client on port 4200
     // Navigate to the frontend repository
     npm install // <-- do this to make sure all Node.js packages are up to date
