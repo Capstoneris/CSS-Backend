@@ -108,6 +108,7 @@ dist
 ### Java template
 # Compiled class file
 *.class
+.idea/
 
 # Log file
 *.log
