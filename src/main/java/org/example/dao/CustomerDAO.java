@@ -3,8 +3,6 @@ package org.example.dao;
 import org.example.sql.Connection;
 
 //import java.sql.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class CustomerDAO extends Connection {
 
@@ -29,7 +27,7 @@ public class CustomerDAO extends Connection {
 //            closeConnections(resultSet, preparedStatement);
 //        }
 //        return null;
-        return "A customer";
+        return "A customer!";
     }
 
 }

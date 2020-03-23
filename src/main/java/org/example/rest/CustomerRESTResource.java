@@ -6,7 +6,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -25,6 +24,7 @@ public class CustomerRESTResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getCustomer() {
+        System.out.println("Getting request for Customer!");
         return customerBO.getCustomer();
     }
 }
