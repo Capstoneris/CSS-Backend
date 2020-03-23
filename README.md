@@ -1,6 +1,7 @@
 ![Capturis Logo](https://www.capturis.com/wp-content/uploads/2014/07/capturis_logo.png)
 
 # German Capstone Project 2020
+## Capturis Session Share - Backend
 
 ## ✨ Overview
 > Collaborative form editor, chat system, and feedback tool.
@@ -14,7 +15,7 @@
     mvn exec:java
 
     // To run Angular web client on port 4200
-    cd src/client/
+    // Navigate to the frontend repository
     npm install // <-- do this to make sure all Node.js packages are up to date
     ng serve -o
 ```
