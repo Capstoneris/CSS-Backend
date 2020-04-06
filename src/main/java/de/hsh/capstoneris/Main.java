@@ -1,4 +1,4 @@
-package org.example;
+package de.hsh.capstoneris;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -39,7 +39,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with WADL available at %sapplication.wadl\nHit CTRL+C to stop it...", BASE_URI));
-        System.in.read();
+        try {
+            Thread.sleep(Long.MAX_VALUE);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         server.shutdown();
 
     }

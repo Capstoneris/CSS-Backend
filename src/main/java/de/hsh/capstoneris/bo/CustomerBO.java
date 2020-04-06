@@ -1,6 +1,6 @@
-package org.example.bo;
+package de.hsh.capstoneris.bo;
 
-import org.example.dao.CustomerDAO;
+import de.hsh.capstoneris.dao.CustomerDAO;
 
 public class CustomerBO {
 

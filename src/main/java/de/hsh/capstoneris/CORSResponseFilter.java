@@ -1,4 +1,4 @@
-package org.example;
+package de.hsh.capstoneris;
 
 import java.io.IOException;
 

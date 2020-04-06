@@ -8,7 +8,28 @@
 
 ## Running the Project
 
-##### In your terminal:
+### docker-compose
+If you want to use docker-compose to run the backend server and database, you need to configure the following things:
+* Install docker (https://docs.docker.com/) and make sure you can run the "hello-world" image
+* (if on Linux) Install docker-compose
+* Create and add a GitHub Personal Access Token for Docker
+    * Log into your GitHub Account
+    * Open https://github.com/settings/tokens
+    * Select "Generate new Token"
+    * Select "read:packages" as scope
+    * Add a speaking Note for the Token ("Docker" for example)
+    * Click on "Generate token"
+* Use docker login to get access to GitHub-Packages
+    * `docker login docker.pkg.github.com`
+    * Enter your GitHub username as Username
+    * Enter the generated private access token as password
+
+After that clone and navigate into the backend server repository in a terminal and execute
+```
+docker-compose up
+```
+
+### In your terminal:
 ```
     // To run server locally on port 8080
     mvn clean test //<-- the test command is optional, though recommended
@@ -28,10 +49,6 @@
 
 - Visit localhost:4200 in your browser.
 
-## Learn Git with BitBucket Cloud
-
-  - [https://www.atlassian.com/git/tutorials/learn-git-with-bitbucket-cloud#copy-and-add-files](https://www.atlassian.com/git/tutorials/learn-git-with-bitbucket-cloud#copy-and-add-files)
-
 ## Recommended Technology Stack
 
 - Database - [PostgreSQL](https://www.postgresql.org/)
@@ -40,4 +57,4 @@
 - RESTful API Framework - [Jersey](https://eclipse-ee4j.github.io/jersey/)
 - Build & Dependency Management Frontend - [Node.js & NPM](https://nodejs.org/en/)
 - Frontend Language - [TypeScript](https://www.typescriptlang.org/)
-- Fontend Framework - [Angular](https://angular.io/)
+- Frontend Framework - [Angular](https://angular.io/)

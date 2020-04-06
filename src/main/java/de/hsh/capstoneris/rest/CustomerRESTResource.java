@@ -1,6 +1,6 @@
-package org.example.rest;
+package de.hsh.capstoneris.rest;
 
-import org.example.bo.CustomerBO;
+import de.hsh.capstoneris.bo.CustomerBO;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
