@@ -5,6 +5,12 @@ services:
     ports:
       - "8081:8081"
   database:
-    image: docker.pkg.github.com/capstoneris/css-backend/css-database:latest
+    image: postgres
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRES_DB=css-db
+      - POSTGRES_USER=css-db
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
