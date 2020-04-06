@@ -49,6 +49,22 @@ docker-compose up
 
 - Visit localhost:4200 in your browser.
 
+## For development
+
+### Database
+
+You can use Docker for the database, which will automatically be configured as needed.
+Do do that, follow the configuration steps:
+* Install docker (https://docs.docker.com/) and make sure you can run the "hello-world" image
+* (if on Linux) Install docker-compose
+
+After that you can execute
+
+`docker-compose up database`
+
+in your terminal to start the database.
+
+
 ## Recommended Technology Stack
 
 - Database - [PostgreSQL](https://www.postgresql.org/)
