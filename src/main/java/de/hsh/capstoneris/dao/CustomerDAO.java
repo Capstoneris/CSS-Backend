@@ -1,6 +1,6 @@
-package org.example.dao;
+package de.hsh.capstoneris.dao;
 
-import org.example.sql.Connection;
+import de.hsh.capstoneris.sql.Connection;
 
 //import java.sql.*;
 

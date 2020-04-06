@@ -1,0 +1,16 @@
+version: '2.0'
+services:
+  server:
+    image: docker.pkg.github.com/capstoneris/css-backend/css-backend:master
+    ports:
+      - "8081:8081"
+  database:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=css-db
+      - POSTGRES_USER=css-db
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

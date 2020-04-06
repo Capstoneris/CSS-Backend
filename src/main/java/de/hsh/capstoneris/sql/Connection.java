@@ -1,4 +1,4 @@
-package org.example.sql;
+package de.hsh.capstoneris.sql;
 
 import java.io.IOException;
 import java.security.Permissions;
