@@ -49,6 +49,32 @@ docker-compose up
 
 - Visit localhost:4200 in your browser.
 
+## For development
+
+### Database
+
+You can use Docker for the database, which will automatically be configured as needed.
+Do do that, follow the configuration steps:
+* Install docker (https://docs.docker.com/) and make sure you can run the "hello-world" image
+* Create and add a GitHub Personal Access Token for Docker
+    * Log into your GitHub Account
+    * Open https://github.com/settings/tokens
+    * Select "Generate new Token"
+    * Select "read:packages" as scope
+    * Add a speaking Note for the Token ("Docker" for example)
+    * Click on "Generate token"
+* Use docker login to get access to GitHub-Packages
+    * `docker login docker.pkg.github.com`
+    * Enter your GitHub username as Username
+    * Enter the generated private access token as password
+
+After that you can execute
+
+`docker run --name css-database -p 5432:5432 --rm docker.pkg.github.com/capstoneris/css-backend/css-database:latest`
+
+in your terminal to start the database.
+
+
 ## Recommended Technology Stack
 
 - Database - [PostgreSQL](https://www.postgresql.org/)
