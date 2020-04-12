@@ -1,11 +1,14 @@
 package de.hsh.capstoneris;
 
+import de.hsh.capstoneris.sql.Connection;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Main class.
@@ -13,7 +16,7 @@ import java.net.URI;
 public class Main {
 
     // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = "http://0.0.0.0:8081/rest/";
+    public static final String BASE_URI = "http://0.0.0.0:8081/api/";
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -30,22 +33,43 @@ public class Main {
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
-    /**
-     * Main method.
-     *
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
+    public static void testDBConnection() {
+        Connection conn = new Connection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.setupPreparedStatement("SELECT * FROM css.users");
+            if (stmt.execute()) {
+                System.out.println("Connected to Database localhost:5432/css-db");
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with WADL available at %sapplication.wadl\nHit CTRL+C to stop it...", BASE_URI));
+
+        testDBConnection();
+
+        /*
+        Configuration socketIOConfig = new Configuration();
+        socketIOConfig.setHostname("localhost");
+        socketIOConfig.setPort(9092);
+        SocketIOServer socketIOServer = new SocketIOServer(socketIOConfig);
+        socketIOServer.start();
+        */
+
         try {
             Thread.sleep(Long.MAX_VALUE);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         server.shutdown();
+        // socketIOServer.stop();
 
     }
+
+
 }
 

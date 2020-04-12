@@ -11,9 +11,9 @@ import java.sql.Statement;
 import java.util.List;
 
 public class Connection {
-    private static final String DB_CONN = "jdbc:postgresql://localhost:";
-    private static final String DB_USER = "postgresql";
-    private static final String DB_PW = "test1234";
+    private static final String DB_CONN = "jdbc:postgresql://localhost:5432/css-db";
+    private static final String DB_USER = "css-db";
+    private static final String DB_PW = "password";
 
     public Statement setupStatement() throws SQLException, IOException {
         java.sql.Connection connection = setUpCommonConnection();

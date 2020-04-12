@@ -64,6 +64,38 @@ After that you can execute
 
 in your terminal to start the database.
 
+## Authentication
+### Login
+
+* POST to `/api/auth/login` with Body
+```json
+{
+  "username": "Mr. Foo",
+  "password": "12345"
+}
+```
+* Responses
+  * Successful:
+    * If user exists a JWT is generated and set as cookie (name `css-jwt`) and status 200 is returned
+  * Unsuccessful:
+    * If user does not exist, Status 401 is returned
+    * If something goes wrong in the process (SQL or JWT problems), Status 500 is returned
+
+### Check Authentication
+
+* GET to `/api/auth`
+* Responses
+    * Status 200 is returned when logged in
+    * Status 401 is returned when logged out
+    
+### Logout
+
+* POST to `/api/logout`
+* Responses
+    * Status 200 is returned when logout successful
+    * Status 401 is returned when logout not successful (for example when already logged out)
+    
+    
 
 ## Recommended Technology Stack
 
