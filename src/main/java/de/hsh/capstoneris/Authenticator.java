@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class Authenticator {
     public static final String SECRET = "secret";
-    private static Algorithm algorithmHS = Algorithm.HMAC256("secret");
+    private static Algorithm algorithmHS = Algorithm.HMAC256(SECRET);
 
     public static String generateToken(String username) {
 

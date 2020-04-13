@@ -1,5 +1,7 @@
 package de.hsh.capstoneris;
 
+import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketIOServer;
 import de.hsh.capstoneris.sql.Connection;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -52,14 +54,23 @@ public class Main {
         final HttpServer server = startServer();
         System.out.println(String.format("CSS-Backend started!\nHit CTRL+C to stop it...", BASE_URI));
 
+        Configuration config = new Configuration();
+        config.setHostname("localhost");
+        config.setPort(8082);
+
+        final SocketIOServer socketIOServer = new SocketIOServer(config);
+        socketIOServer.start();
+
         testDBConnection();
 
         try {
+            // Warning: Server will automatically shut down in 292.471.208 years!
             Thread.sleep(Long.MAX_VALUE);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         server.shutdown();
+        socketIOServer.stop();
 
     }
 
