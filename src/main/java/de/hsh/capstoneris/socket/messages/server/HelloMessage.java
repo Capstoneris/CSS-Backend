@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.socketMessages.server;
+package de.hsh.capstoneris.socket.messages.server;
 
-public class HelloMessage extends ServerMessage {
+public class HelloMessage implements ServerMessage {
     /*TODO hello
 Liste aller Einladungen (nur für Sitzungen, die noch laufen!)
 Falls aktuell in einer Session:

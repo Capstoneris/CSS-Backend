@@ -2,8 +2,11 @@ version: '2.0'
 services:
   server:
     image: docker.pkg.github.com/capstoneris/css-backend/css-backend:master
+    environment:
+      - DATABASE_HOST=database
     ports:
       - "8081:8081"
+      - "8082:8082"
   database:
     image: postgres
     ports:

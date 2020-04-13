@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.socketMessages.server;
+package de.hsh.capstoneris.socket.messages.server;
 
-public class SessionJoinedMessage extends ServerMessage {
+public class SessionJoinedMessage implements ServerMessage {
 
     /*TODO session-joined
 Name des Hosts

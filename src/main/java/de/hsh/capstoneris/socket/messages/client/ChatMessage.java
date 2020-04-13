@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.socketMessages.client;
+package de.hsh.capstoneris.socket.messages.client;
 
-public class ChatMessage extends ClientMessage{
+public class ChatMessage implements ClientMessage {
 
     /*TODO send-chat-message
 

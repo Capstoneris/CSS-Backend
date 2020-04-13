@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.socketMessages.client;
+package de.hsh.capstoneris.socket.messages.client;
 
-public class InputFieldInteractionMessage extends ClientMessage {
+public class InputFieldInteractionMessage implements ClientMessage {
 
     /*TODO inputfield-interaction
  * (Wird nur bei neu fokussierten/geänderten Feldern geschickt. Nicht für das “verlassen” des vorherigen Feldes)

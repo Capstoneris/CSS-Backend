@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.socketMessages.server;
+package de.hsh.capstoneris.socket.messages.server;
 
-public class ErrorMessage extends ServerMessage {
+public class ErrorMessage implements ServerMessage {
 
     /*TODO
     *  error

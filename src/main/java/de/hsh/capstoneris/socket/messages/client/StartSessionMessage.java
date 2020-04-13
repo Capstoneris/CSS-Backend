@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.socketMessages.client;
+package de.hsh.capstoneris.socket.messages.client;
 
-public class StartSessionMessage extends ClientMessage{
+public class StartSessionMessage implements ClientMessage {
     /*
     TODO
     ** start-session

@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.socketMessages.server;
+package de.hsh.capstoneris.socket.messages.server;
 
-public class InputfieldChangedMessage extends ServerMessage {
+public class InputfieldChangedMessage implements ServerMessage {
 
 /*TODO inputfield-changed
 Name des Mitglieds das die Änderung ausgelöst hat

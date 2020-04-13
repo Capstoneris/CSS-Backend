@@ -2,16 +2,14 @@ package de.hsh.capstoneris.sql;
 
 import java.io.IOException;
 import java.security.Permissions;
-import java.sql.Array;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class Connection {
-    private static final String DB_CONN = "jdbc:postgresql://localhost:5432/css-db";
+    private static final String DB_CONN = "jdbc:postgresql://" + (
+            (System.getenv("DATABASE_HOST") == null)
+                    ? "localhost"
+                    : System.getenv("DATABASE_HOST")) + ":5432/css-db";
     private static final String DB_USER = "css-db";
     private static final String DB_PW = "password";
 
