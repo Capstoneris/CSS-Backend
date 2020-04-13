@@ -1,10 +1,6 @@
 package de.hsh.capstoneris.rest;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import de.hsh.capstoneris.Authenticator;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,24 +12,22 @@ import java.util.Map;
 public class LogoutRESTResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAuth(@Context HttpHeaders headers) {
+    public Response logout(@Context HttpHeaders headers) {
         System.out.println("[LOGOUT] Logging out...");
         Map<String, Cookie> cookies = headers.getCookies();
 
         if (cookies.containsKey("css-jwt")) {
             Cookie cookie = cookies.get("css-jwt");
             String token = cookie.getValue();
-            Algorithm algorithmHS = Algorithm.HMAC256("secret");
-            JWTVerifier verifier = JWT.require(algorithmHS).withIssuer("css-server").build();
-            try {
-                // Gets the token from the cookie and verifies it
-                DecodedJWT jwt = verifier.verify(token);
-
+            String user = Authenticator.verifyToken(token);
+            if (user != null) {
                 // Sets the cookie to logged out
-                NewCookie logoutCookie = new NewCookie("css-jwt", null, null, null, null, 0, false, true);
-                System.out.println("[LOGOUT] Logged out user " + jwt.getClaim("user").asString());
+                // WARNING: The cookie could retrieved by XSS-attacks
+                NewCookie logoutCookie = new NewCookie("css-jwt", null, null, null, null, 0, false, false);
+                System.out.println("[LOGOUT] Logged out user " + user);
                 return Response.ok().cookie(logoutCookie).build();
-            } catch (JWTVerificationException e) {
+            } else {
+                System.out.println("[LOGOUT] Logout failed");
                 return Response.status(401).build();
             }
         } else {

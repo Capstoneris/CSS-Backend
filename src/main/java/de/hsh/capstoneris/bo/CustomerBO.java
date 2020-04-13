@@ -6,7 +6,7 @@ public class CustomerBO {
 
     CustomerDAO customerDAO = new CustomerDAO();
 
-    public String getCustomer(){
+    public String getCustomer() {
         return customerDAO.getCustomer();
     }
 

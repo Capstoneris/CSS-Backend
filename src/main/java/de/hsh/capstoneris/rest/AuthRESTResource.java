@@ -1,10 +1,6 @@
 package de.hsh.capstoneris.rest;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import de.hsh.capstoneris.Authenticator;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,14 +19,11 @@ public class AuthRESTResource {
         if (cookies.containsKey("css-jwt")) {
             Cookie cookie = cookies.get("css-jwt");
             String token = cookie.getValue();
-            Algorithm algorithmHS = Algorithm.HMAC256("secret");
-            JWTVerifier verifier = JWT.require(algorithmHS).withIssuer("css-server").build();
-            try {
-                // Gets the token from the cookie and verifies it
-                DecodedJWT jwt = verifier.verify(token);
-                System.out.println("[AUTH] Authenticated user " + jwt.getClaim("user").asString());
+            String user = Authenticator.verifyToken(token);
+            if (user != null) {
+                System.out.println("[AUTH] Authenticated user " + user);
                 return Response.ok().build();
-            } catch (JWTVerificationException e) {
+            } else {
                 System.out.println("[AUTH] Authentication failed");
                 return Response.status(401).build();
             }

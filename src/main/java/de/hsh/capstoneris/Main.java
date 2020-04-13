@@ -30,7 +30,9 @@ public class Main {
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
-        return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
+        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
+
+        return server;
     }
 
     public static void testDBConnection() {
@@ -48,17 +50,9 @@ public class Main {
 
     public static void main(String[] args) {
         final HttpServer server = startServer();
-        System.out.println(String.format("Jersey app started with WADL available at %sapplication.wadl\nHit CTRL+C to stop it...", BASE_URI));
+        System.out.println(String.format("CSS-Backend started!\nHit CTRL+C to stop it...", BASE_URI));
 
         testDBConnection();
-
-        /*
-        Configuration socketIOConfig = new Configuration();
-        socketIOConfig.setHostname("localhost");
-        socketIOConfig.setPort(9092);
-        SocketIOServer socketIOServer = new SocketIOServer(socketIOConfig);
-        socketIOServer.start();
-        */
 
         try {
             Thread.sleep(Long.MAX_VALUE);
@@ -66,7 +60,6 @@ public class Main {
             e.printStackTrace();
         }
         server.shutdown();
-        // socketIOServer.stop();
 
     }
 
