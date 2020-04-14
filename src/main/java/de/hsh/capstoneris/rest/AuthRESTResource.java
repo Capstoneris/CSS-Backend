@@ -1,6 +1,7 @@
 package de.hsh.capstoneris.rest;
 
 import de.hsh.capstoneris.Authenticator;
+import de.hsh.capstoneris.jsonObjects.LoginResponse;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,7 +23,7 @@ public class AuthRESTResource {
             String user = Authenticator.verifyToken(token);
             if (user != null) {
                 System.out.println("[AUTH] Authenticated user " + user);
-                return Response.ok().build();
+                return Response.ok().entity(new LoginResponse(0, user)).build();
             } else {
                 System.out.println("[AUTH] Authentication failed");
                 return Response.status(401).build();

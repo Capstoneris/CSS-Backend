@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.socketMessages.client;
+package de.hsh.capstoneris.socket.messages.client;
 
-public class JoinSessionMessage extends ClientMessage {
+public class JoinSessionMessage implements ClientMessage {
     /*TODO join-session
 Name des Hosts
 → Server prüft, ob dieser Host Session gestartet hat
