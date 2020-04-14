@@ -2,6 +2,7 @@ package de.hsh.capstoneris.rest;
 
 import de.hsh.capstoneris.Authenticator;
 import de.hsh.capstoneris.jsonObjects.LoginInformation;
+import de.hsh.capstoneris.jsonObjects.LoginResponse;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -31,8 +32,7 @@ public class LoginRESTResource {
             // Create a cookie with the token as value
             // WARNING: The cookie could retrieved by XSS-attacks
             NewCookie cookie = new NewCookie("css-jwt", token, null, null, null, NewCookie.DEFAULT_MAX_AGE, false, false);
-
-            response = Response.ok().cookie(cookie).build();
+            response = Response.ok().entity(new LoginResponse(0, loginInformation.username)).cookie(cookie).build();
             System.out.println("[LOGIN] Successful, setting cookie for user " + loginInformation.username);
         }
 

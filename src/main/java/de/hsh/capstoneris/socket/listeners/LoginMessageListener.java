@@ -5,6 +5,8 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 import de.hsh.capstoneris.Authenticator;
 import de.hsh.capstoneris.socket.messages.client.LoginMessage;
+import de.hsh.capstoneris.socket.messages.server.ErrorMessage;
+import de.hsh.capstoneris.socket.messages.server.error.IllegalOperationErrorMessage;
 
 public class LoginMessageListener implements DataListener<LoginMessage> {
     @Override
@@ -16,11 +18,11 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
                 socketIOClient.joinRoom("logged-in");
                 socketIOClient.sendEvent("hello", "[TEMPORARY MESSAGE] Hello " + user + ", you are logged in");
             } else {
-                socketIOClient.sendEvent("error", "[TEMPORARY MESSAGE] Bye!");
+                socketIOClient.sendEvent("error", new ErrorMessage(401, "Token invalid"));
                 socketIOClient.disconnect();
             }
         } else {
-            socketIOClient.sendEvent("error", "[TEMPORARY MESSAGE] Already logged in!");
+            socketIOClient.sendEvent("error", new IllegalOperationErrorMessage());
         }
     }
 }
