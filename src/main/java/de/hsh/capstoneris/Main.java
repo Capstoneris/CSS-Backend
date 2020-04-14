@@ -62,7 +62,6 @@ public class Main {
         socketIOServer.start();
 
         testDBConnection();
-
         try {
             // Warning: Server will automatically shut down in 292.471.208 years!
             Thread.sleep(Long.MAX_VALUE);
