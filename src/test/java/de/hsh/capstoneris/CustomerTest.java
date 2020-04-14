@@ -40,9 +40,9 @@ public class CustomerTest {
 //    /**
 //     * Test to see that the message "Got it!" is sent in the response.
 //     */
-//    @Test
-//    public void testGetIt() {
-//        String responseMsg = target.path("customer").request().get(String.class);
-//        assertEquals("You got it", responseMsg);
-//    }
+    //@Test
+    public void testGetIt() {
+        String responseMsg = target.path("customer").request().get(String.class);
+        assertEquals("You got it", responseMsg);
+    }
 }
