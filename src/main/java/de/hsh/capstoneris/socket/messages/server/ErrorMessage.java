@@ -3,7 +3,7 @@ package de.hsh.capstoneris.socket.messages.server;
 
 /* Statuscodes
 
-400 - InvalidInput -> Client sends message
+400 - InvalidInput -> Client sends message with invalid input data
 403 - IllegalOperation -> Client sends message which is not allowed in it's current state
 
  */

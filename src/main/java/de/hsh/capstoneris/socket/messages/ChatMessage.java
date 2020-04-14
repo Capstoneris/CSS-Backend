@@ -1,4 +1,6 @@
-package de.hsh.capstoneris.socket.messages.client;
+package de.hsh.capstoneris.socket.messages;
+
+import de.hsh.capstoneris.socket.messages.client.ClientMessage;
 
 public class ChatMessage implements ClientMessage {
 
