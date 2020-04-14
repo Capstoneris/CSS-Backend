@@ -1,12 +1,4 @@
-<<<<<<< HEAD:src/main/java/de/hsh/capstoneris/socketMessages/client/KickMemberMessage.java
-package de.hsh.capstoneris.socketMessages.client;
-
-public class KickMemberMessage implements ClientMessage {
-    public KickMemberMessage() {
-    }
-=======
 package de.hsh.capstoneris.socket.messages.client;
->>>>>>> master:src/main/java/de/hsh/capstoneris/socket/messages/client/KickMemberMessage.java
 
 public class KickMemberMessage implements ClientMessage {
     /* TODO kick-member

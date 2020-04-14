@@ -1,16 +1,12 @@
 package de.hsh.capstoneris.socket.messages.server;
 
-<<<<<<< HEAD:src/main/java/de/hsh/capstoneris/socketMessages/server/SessionJoinedMessage.java
 import java.util.ArrayList;
-=======
-public class SessionJoinedMessage implements ServerMessage {
->>>>>>> master:src/main/java/de/hsh/capstoneris/socket/messages/server/SessionJoinedMessage.java
 
 public class SessionJoinedMessage implements ServerMessage {
 
     public String hostname;
     // list of members
-    public ArrayList <String> chatHistory;
+    public ArrayList<String> chatHistory;
 
     public SessionJoinedMessage(String hostname, ArrayList<String> chatHistory) {
         this.hostname = hostname;

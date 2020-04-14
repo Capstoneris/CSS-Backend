@@ -1,13 +1,6 @@
 package de.hsh.capstoneris.socket.messages;
 
-<<<<<<< HEAD:src/main/java/de/hsh/capstoneris/socketMessages/client/ChatMessage.java
-public class ChatMessage implements ClientMessage{
-=======
-import de.hsh.capstoneris.socket.messages.client.ClientMessage;
-
-public class ChatMessage implements ClientMessage {
->>>>>>> master:src/main/java/de/hsh/capstoneris/socket/messages/ChatMessage.java
-
+public class ChatMessage implements Message {
     public double timeStamp;
     public String messageContent;
 

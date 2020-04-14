@@ -1,15 +1,8 @@
 package de.hsh.capstoneris.socket.messages.client;
 
 public class LeaveSessionMessage implements ClientMessage {
-<<<<<<< HEAD:src/main/java/de/hsh/capstoneris/socketMessages/client/LeaveSessionMessage.java
-    public LeaveSessionMessage() {
-    }
-
 
     /*
-=======
-      /*
->>>>>>> master:src/main/java/de/hsh/capstoneris/socket/messages/client/LeaveSessionMessage.java
     TODO leave-session
     Wenn Host leaved:
     → Server setzt Nutzerzustände aller Mitglieder zurück

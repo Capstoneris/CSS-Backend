@@ -1,7 +1,6 @@
 package de.hsh.capstoneris.socket.messages.client;
 
-<<<<<<< HEAD:src/main/java/de/hsh/capstoneris/socketMessages/client/StartSessionMessage.java
-public class StartSessionMessage implements ClientMessage{
+public class StartSessionMessage implements ClientMessage {
 
     public double timeStamp;
     public String startMessageContent;
@@ -38,9 +37,7 @@ public class StartSessionMessage implements ClientMessage{
     public void setGroup(String group) {
         this.group = group;
     }
-=======
-public class StartSessionMessage implements ClientMessage {
->>>>>>> master:src/main/java/de/hsh/capstoneris/socket/messages/client/StartSessionMessage.java
+
     /*
     TODO
     ** start-session
