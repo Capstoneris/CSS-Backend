@@ -3,7 +3,7 @@ package de.hsh.capstoneris.dao;
 import de.hsh.capstoneris.sql.Connection;
 
 import javax.json.bind.annotation.JsonbProperty;
-import java.util.ArrayList;
+
 
 public class UserDAO extends Connection {
     @JsonbProperty("id")
