@@ -4,6 +4,7 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import de.hsh.capstoneris.socket.Socket;
+import de.hsh.capstoneris.socket.SocketManager;
 import de.hsh.capstoneris.socket.listeners.*;
 import de.hsh.capstoneris.socket.messages.ChatMessage;
 import de.hsh.capstoneris.socket.messages.client.*;
@@ -48,14 +49,15 @@ public class Main {
         config.setPort(8082);
 
         final SocketIOServer socketIOServer = new SocketIOServer(config);
+        final SocketManager socketManager = new SocketManager();
 
         socketIOServer.addConnectListener(new SocketConnectListener());
-        socketIOServer.addDisconnectListener(new SocketDisconnectListener());
+        socketIOServer.addDisconnectListener(new SocketDisconnectListener(socketManager));
         socketIOServer.addEventListener(Socket.CLIENT_CHAT_MESSAGE, ChatMessage.class, new ChatMessageListener());
         socketIOServer.addEventListener(Socket.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener());
         socketIOServer.addEventListener(Socket.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener());
         socketIOServer.addEventListener(Socket.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());
-        socketIOServer.addEventListener(Socket.LOGIN, LoginMessage.class, new LoginMessageListener());
+        socketIOServer.addEventListener(Socket.LOGIN, LoginMessage.class, new LoginMessageListener(socketManager));
         socketIOServer.addEventListener(Socket.START_SESSION, StartSessionMessage.class, new StartSessionMessageListener());
         return socketIOServer;
     }
