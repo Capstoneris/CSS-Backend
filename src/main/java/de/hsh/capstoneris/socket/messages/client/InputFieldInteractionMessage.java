@@ -1,6 +1,7 @@
-package de.hsh.capstoneris.socketMessages.client;
+package de.hsh.capstoneris.socket.messages.client;
 
 public class InputFieldInteractionMessage implements ClientMessage {
+<<<<<<< HEAD:src/main/java/de/hsh/capstoneris/socketMessages/client/InputFieldInteractionMessage.java
 
     public int fieldID;
     public boolean changed;
@@ -67,6 +68,8 @@ public class InputFieldInteractionMessage implements ClientMessage {
     }
 
 
+=======
+>>>>>>> master:src/main/java/de/hsh/capstoneris/socket/messages/client/InputFieldInteractionMessage.java
 
     /*TODO inputfield-interaction
 

@@ -1,6 +1,10 @@
-package de.hsh.capstoneris.socketMessages.server;
+package de.hsh.capstoneris.socket.messages.server;
 
+<<<<<<< HEAD:src/main/java/de/hsh/capstoneris/socketMessages/server/SessionJoinedMessage.java
 import java.util.ArrayList;
+=======
+public class SessionJoinedMessage implements ServerMessage {
+>>>>>>> master:src/main/java/de/hsh/capstoneris/socket/messages/server/SessionJoinedMessage.java
 
 public class SessionJoinedMessage implements ServerMessage {
 

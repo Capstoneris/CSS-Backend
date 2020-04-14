@@ -1,6 +1,7 @@
-package de.hsh.capstoneris.socketMessages.client;
+package de.hsh.capstoneris.socket.messages.client;
 
 public class JoinSessionMessage implements ClientMessage {
+<<<<<<< HEAD:src/main/java/de/hsh/capstoneris/socketMessages/client/JoinSessionMessage.java
 
     public String hostName;
 
@@ -16,6 +17,8 @@ public class JoinSessionMessage implements ClientMessage {
         this.hostName = hostName;
     }
 
+=======
+>>>>>>> master:src/main/java/de/hsh/capstoneris/socket/messages/client/JoinSessionMessage.java
     /*TODO join-session
     Name des Hosts
     → Server prüft, ob dieser Host Session gestartet hat
