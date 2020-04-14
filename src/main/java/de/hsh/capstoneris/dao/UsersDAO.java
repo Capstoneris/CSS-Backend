@@ -5,16 +5,10 @@ import de.hsh.capstoneris.sql.Connection;
 import java.sql.*;
 import java.util.ArrayList;
 
-//@Entity
-//@Table(name = "users")
 public class UsersDAO extends Connection{
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE)
-    //@Column(name = "id", updatable = false, nullable = false)
-    //@Column(name = "name")
+
 
     private ArrayList<UserDAO> list = new ArrayList<>();
-
 
 
     public String getUsers() {
