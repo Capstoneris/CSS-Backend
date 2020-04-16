@@ -34,13 +34,15 @@ public class Authenticator {
 
             // If an entry with the username exists...
             if (result.next()) {
+                conn.closeConnections(result, stmt);
                 // Create a token
-                stmt.close();
                 String token = JWT.create().withIssuer("css-server").withClaim("user", username).sign(algorithmHS);
                 return token;
             } else {
+                conn.closeConnections(result, stmt);
                 return "401";
             }
+
         } catch (SQLException | IOException | JWTCreationException e) {
             e.printStackTrace();
             return "500";

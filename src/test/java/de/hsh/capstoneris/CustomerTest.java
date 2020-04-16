@@ -1,13 +1,12 @@
 package de.hsh.capstoneris;
 
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.junit.After;
+import org.junit.Before;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-
-import org.glassfish.grizzly.http.server.HttpServer;
-
-import org.junit.After;
-import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,10 +33,10 @@ public class CustomerTest {
 
     @After
     public void tearDown() throws Exception {
-        server.stop();
+        server.shutdown();
     }
 
-//    /**
+    //    /**
 //     * Test to see that the message "Got it!" is sent in the response.
 //     */
     //@Test
