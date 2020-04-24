@@ -11,11 +11,9 @@ public class SocketSession {
     public ArrayList<SocketUser> joinedUsers;
     public ArrayList<String> chatHistory;
 
-    public SocketSession(String room, SocketUser host, ArrayList<SocketUser> joinedUsers, ArrayList<String> chatHistory) {
+    public SocketSession(String room, SocketUser host) {
         this.room = room;
         this.host = host;
-        this.joinedUsers = joinedUsers;
-        this.chatHistory = chatHistory;
     }
 
     public String getRoom() {

@@ -59,7 +59,7 @@ public class Main {
         socketIOServer.addEventListener(Socket.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener());
         socketIOServer.addEventListener(Socket.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());
         socketIOServer.addEventListener(Socket.LOGIN, LoginMessage.class, new LoginMessageListener(socketManager));
-        socketIOServer.addEventListener(Socket.START_SESSION, StartSessionMessage.class, new StartSessionMessageListener());
+        socketIOServer.addEventListener(Socket.START_SESSION, StartSessionMessage.class, new StartSessionMessageListener(socketManager));
         return socketIOServer;
     }
 

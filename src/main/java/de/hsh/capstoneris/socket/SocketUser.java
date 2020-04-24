@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class SocketUser {
     public int sessionID;
+    public String username;
     public ArrayList<String> currentRooms;
 
-    public SocketUser(int sessionID, ArrayList<String> currentRooms) {
-        this.sessionID = sessionID;
-        this.currentRooms = currentRooms;
+    public SocketUser(String username)
+    {this.username=username;
     }
 
     public int getSessionID() {

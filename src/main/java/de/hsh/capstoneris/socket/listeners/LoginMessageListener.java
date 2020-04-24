@@ -6,6 +6,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import de.hsh.capstoneris.Authenticator;
 import de.hsh.capstoneris.socket.Socket;
 import de.hsh.capstoneris.socket.SocketManager;
+import de.hsh.capstoneris.socket.SocketUser;
 import de.hsh.capstoneris.socket.messages.client.LoginMessage;
 import de.hsh.capstoneris.socket.messages.server.HelloMessage;
 import de.hsh.capstoneris.socket.messages.server.error.IllegalOperationErrorMessage;
@@ -27,7 +28,7 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
             socketIOClient.leaveRoom(Socket.CONNECTION_ROOM);
             if (user != null) {
                 socketIOClient.joinRoom(Socket.LOGGED_IN_ROOM);
-                socketManager.addLoggedInUser(user, socketIOClient.getSessionId());
+                socketManager.addLoggedInUser(new SocketUser(user), socketIOClient.getSessionId());
                 socketIOClient.sendEvent(Socket.HELLO, new HelloMessage());
                 System.out.println("Logged in users: " + socketManager.getLoggedInUsers());
             } else {

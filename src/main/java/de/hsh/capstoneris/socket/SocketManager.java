@@ -1,18 +1,22 @@
 package de.hsh.capstoneris.socket;
 
 import com.corundumstudio.socketio.SocketIOClient;
+import de.hsh.capstoneris.socket.session.SocketSession;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class SocketManager {
-    private HashMap<String, String> loggedInUsers = new HashMap<>();
+    public ArrayList<SocketSession> sessions;
 
-    public HashMap<String, String> getLoggedInUsers() {
+    private HashMap<String, SocketUser> loggedInUsers = new HashMap<>();
+
+    public HashMap<String, SocketUser> getLoggedInUsers() {
         return loggedInUsers;
     }
 
-    public void addLoggedInUser(String user, UUID id) {
+    public void addLoggedInUser(SocketUser user, UUID id) {
         loggedInUsers.put(id.toString(), user);
     }
 
@@ -22,5 +26,9 @@ public class SocketManager {
 
     public static boolean isLoggedIn(SocketIOClient socketIOClient) {
         return socketIOClient.getAllRooms().contains(Socket.LOGGED_IN_ROOM);
+    }
+
+    public ArrayList<SocketSession> getSessions() {
+        return sessions;
     }
 }
