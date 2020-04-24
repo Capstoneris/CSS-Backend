@@ -53,6 +53,7 @@ public class Main {
 
         socketIOServer.addConnectListener(new SocketConnectListener());
         socketIOServer.addDisconnectListener(new SocketDisconnectListener(socketManager));
+
         socketIOServer.addEventListener(Socket.CLIENT_CHAT_MESSAGE, ChatMessage.class, new ChatMessageListener());
         socketIOServer.addEventListener(Socket.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener());
         socketIOServer.addEventListener(Socket.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener());
