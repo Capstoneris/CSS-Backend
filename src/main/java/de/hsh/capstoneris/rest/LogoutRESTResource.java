@@ -14,18 +14,13 @@ public class LogoutRESTResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response logout(@Context HttpHeaders headers) {
         System.out.println("[LOGOUT] Logging out...");
-        Map<String, Cookie> cookies = headers.getCookies();
+        String token = Authenticator.extractToken(headers);
 
-        if (cookies.containsKey("css-jwt")) {
-            Cookie cookie = cookies.get("css-jwt");
-            String token = cookie.getValue();
+        if (token != null) {
             String user = Authenticator.verifyToken(token);
             if (user != null) {
-                // Sets the cookie to logged out
-                // WARNING: The cookie could retrieved by XSS-attacks
-                NewCookie logoutCookie = new NewCookie("css-jwt", null, null, null, null, 0, false, false);
                 System.out.println("[LOGOUT] Logged out user " + user);
-                return Response.ok().cookie(logoutCookie).build();
+                return Response.ok().build();
             } else {
                 System.out.println("[LOGOUT] Logout failed");
                 return Response.status(401).build();

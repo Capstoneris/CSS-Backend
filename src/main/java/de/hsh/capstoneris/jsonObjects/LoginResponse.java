@@ -3,31 +3,32 @@ package de.hsh.capstoneris.jsonObjects;
 import javax.json.bind.annotation.JsonbProperty;
 
 public class LoginResponse {
-    @JsonbProperty("id")
-    public int id;
-    @JsonbProperty("username")
-    public String username;
+    @JsonbProperty("user")
+    public User user;
+    @JsonbProperty("token")
+    public String token;
 
-    public LoginResponse(int id, String username) {
-        this.id = id;
-        this.username = username;
+    public String getToken() {
+        return token;
     }
 
-    public int getId() {
-        return id;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public User getUser() {
+        return user;
     }
 
-    public String getUsername() {
-        return username;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public LoginResponse(User user, String token) {
+        this.user = user;
+        this.token = token;
     }
+
 
     public LoginResponse() {
     }

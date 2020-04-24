@@ -1,10 +1,13 @@
 package de.hsh.capstoneris.socket.messages.client;
 
+import java.util.ArrayList;
+
 public class StartSessionMessage implements ClientMessage {
 
     public double timeStamp;
     public String startMessageContent;
     public String group;
+    public ArrayList<String> users;
     // TODO List of Current states
     // TODO List of Names of the to be invited people
 
