@@ -36,29 +36,29 @@ public class SessionDAO extends Connection {
             this.group = resultSet.getString("group");
             this.time = resultSet.getString("session_time");
 
-            MessageDAO messageDummy = new MessageDAO();
+            MessageDAO nextMessage = new MessageDAO();
 
-            messageDummy.setId(resultSet.getLong("message_id"));
-            messageDummy.setSent_by(resultSet.getLong("sent_by"));
-            messageDummy.setSent_in(resultSet.getLong("sent_in_session"));
-            messageDummy.setTime(resultSet.getString("message_time"));
-            messageDummy.setContent(resultSet.getString("content"));
+            nextMessage.setId(resultSet.getLong("message_id"));
+            nextMessage.setSent_by(resultSet.getLong("sent_by"));
+            nextMessage.setSent_in(resultSet.getLong("sent_in_session"));
+            nextMessage.setTime(resultSet.getString("message_time"));
+            nextMessage.setContent(resultSet.getString("content"));
 
-            messages.add(messageDummy);
+            messages.add(nextMessage);
 
 
 
 
             while(resultSet.next()) {
-                messageDummy = new MessageDAO();
+                nextMessage = new MessageDAO();
 
-                messageDummy.setId(resultSet.getLong("message_id"));
-                messageDummy.setSent_by(resultSet.getLong("sent_by"));
-                messageDummy.setSent_in(resultSet.getLong("sent_in_session"));
-                messageDummy.setTime(resultSet.getString("message_time"));
-                messageDummy.setContent(resultSet.getString("content"));
+                nextMessage.setId(resultSet.getLong("message_id"));
+                nextMessage.setSent_by(resultSet.getLong("sent_by"));
+                nextMessage.setSent_in(resultSet.getLong("sent_in_session"));
+                nextMessage.setTime(resultSet.getString("message_time"));
+                nextMessage.setContent(resultSet.getString("content"));
 
-                messages.add(messageDummy);
+                messages.add(nextMessage);
             }
 
         } catch (Exception e) {
