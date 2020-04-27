@@ -27,7 +27,7 @@ public class UsersRESTResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getUsers() {
         System.out.println("Getting request for Users!");
-        return usersBO.getUser();
+        return usersBO.getUsers();
     }
 
     @Path("in-my-group")
