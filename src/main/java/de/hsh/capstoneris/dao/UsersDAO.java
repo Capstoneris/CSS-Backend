@@ -46,6 +46,57 @@ public class UsersDAO extends Connection{
 
         return list.toString();
     }
+    public String getUser(long id) {
+        String sql = "SELECT css.users.\"name\" AS username FROM css.users WHERE WHERE css.users.id=" + id + ";";
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        UserDAO userDummy = new UserDAO();
+
+        try {
+            preparedStatement = setupPreparedStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+
+                userDummy.setUserId(id);
+                userDummy.setUserName(resultSet.getString("username"));
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnections(resultSet, preparedStatement);
+        }
+        return userDummy.getUserName();
+    }
+    public long getUser(String username) {
+        String sql = "SELECT css.users.id AS userid FROM css.users WHERE css.users.name LIKE '" + username + "';";
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        UserDAO userDummy = new UserDAO();
+
+        try {
+            preparedStatement = setupPreparedStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+
+            while(resultSet.next()) {
+
+                userDummy.setUserId(resultSet.getLong("userid"));
+                userDummy.setUserName(username);
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnections(resultSet, preparedStatement);
+        }
+        return userDummy.getUserId();
+    }
 
 
 }
