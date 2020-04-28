@@ -22,7 +22,7 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
 
     @Override
     public void onData(SocketIOClient socketIOClient, LoginMessage loginMessage, AckRequest ackRequest) throws Exception {
-        if (socketIOClient.getAllRooms().contains(Socket.CONNECTION_ROOM)) {
+        if (!SocketManager.isLoggedIn(socketIOClient)) {
             String user = Authenticator.verifyToken(loginMessage.token);
             socketIOClient.leaveRoom(Socket.CONNECTION_ROOM);
             if (user != null) {

@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import de.hsh.capstoneris.sql.Connection;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -59,6 +60,11 @@ public class Authenticator {
         } catch (JWTVerificationException e) {
             return null;
         }
+    }
+
+    public static String extractToken(HttpHeaders httpHeaders) {
+        String token = httpHeaders.getRequestHeader("Authorization").get(0).split(" ")[1];
+        return token;
     }
 
 }

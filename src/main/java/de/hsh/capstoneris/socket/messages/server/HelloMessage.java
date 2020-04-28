@@ -2,6 +2,7 @@ package de.hsh.capstoneris.socket.messages.server;
 
 import de.hsh.capstoneris.jsonObjects.Invitation;
 import de.hsh.capstoneris.jsonObjects.LoginResponse;
+import de.hsh.capstoneris.jsonObjects.User;
 
 import java.util.ArrayList;
 
@@ -10,8 +11,8 @@ public class HelloMessage implements ServerMessage {
 
     public HelloMessage() {
         this.invitations = new ArrayList<>();
-        invitations.add(new Invitation(0, new LoginResponse(0, "Admin")));
-        invitations.add(new Invitation(5, new LoginResponse(3, "Herbert")));
+        invitations.add(new Invitation(0, new LoginResponse(new User(0, "Admin"), "asdk")));
+        invitations.add(new Invitation(5, new LoginResponse(new User(3, "Herbert"), "asdkasff")));
     }
 
 

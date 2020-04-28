@@ -1,5 +1,7 @@
 package de.hsh.capstoneris.socket;
 
+import com.corundumstudio.socketio.SocketIOClient;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -16,5 +18,9 @@ public class SocketManager {
 
     public void removeLoggedInUser(UUID id) {
         loggedInUsers.remove(id.toString());
+    }
+
+    public static boolean isLoggedIn(SocketIOClient socketIOClient) {
+        return socketIOClient.getAllRooms().contains(Socket.LOGGED_IN_ROOM);
     }
 }
