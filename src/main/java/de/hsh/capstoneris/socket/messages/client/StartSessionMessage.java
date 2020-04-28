@@ -10,14 +10,15 @@ public class StartSessionMessage implements ClientMessage {
     public String startMessageContent;
     public String group;
     // TODO List of Current states
-    // TODO List of Names of the to be invited people
-    // TODO List of Current input field states
     public ArrayList<SocketUser> users;
+    // TODO List of Current input field states
+
 
     public StartSessionMessage(double timeStamp, String startMessageContent, String group) {
         this.timeStamp = timeStamp;
         this.startMessageContent = startMessageContent;
         this.group = group;
+
     }
 
     public double getTimeStamp() {
@@ -44,6 +45,14 @@ public class StartSessionMessage implements ClientMessage {
         this.group = group;
     }
 
+    public ArrayList<SocketUser> getUsers() {
+        return users;
+    }
+
+
+    public void setUsers(ArrayList<SocketUser> users) {
+        this.users = users;
+    }
     /*
     TODO
     ** start-session

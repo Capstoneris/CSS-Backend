@@ -31,4 +31,7 @@ public class SocketManager {
     public ArrayList<SocketSession> getSessions() {
         return sessions;
     }
+    public void addSession(SocketSession session){
+            sessions.add(session);
+    }
 }
