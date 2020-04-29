@@ -8,6 +8,9 @@ public class JoinSessionMessage implements ClientMessage {
         this.hostName = hostName;
     }
 
+    public JoinSessionMessage() {
+    }
+
     public String getHostName() {
         return hostName;
     }

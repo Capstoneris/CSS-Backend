@@ -2,22 +2,24 @@ package de.hsh.capstoneris.socketio.listeners;
 
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
-import de.hsh.capstoneris.socketio.Manager;
-import de.hsh.capstoneris.socketio.SocketMessageTypes;
-import de.hsh.capstoneris.socketio.State;
-import de.hsh.capstoneris.socketio.User;
+import de.hsh.capstoneris.socketio.*;
 import de.hsh.capstoneris.socketio.messages.client.LoginMessage;
 import de.hsh.capstoneris.socketio.messages.server.HelloMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.IllegalOperationErrorMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.InvalidInputErrorMessage;
 import de.hsh.capstoneris.util.Authenticator;
 
-public class LoginMessageListener implements DataListener<LoginMessage> {
-    private Manager manager;
+import java.util.ArrayList;
 
-    public LoginMessageListener(Manager manager) {
+public class LoginMessageListener implements DataListener<LoginMessage> {
+    private final Manager manager;
+    private final SocketIOServer socketIOServer;
+
+    public LoginMessageListener(Manager manager, SocketIOServer socketIOServer) {
         super();
+        this.socketIOServer = socketIOServer;
         this.manager = manager;
     }
 
@@ -47,13 +49,23 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
                     user.setSessionID(socketIOClient.getSessionId());
                     manager.addUser(user);
                 } else {
-                    // If user object exists, set the state to IDLE and and the session ID of this socketIOClient
+                    // If user object exists, check if already connected
+                    // and disconnect old client
+                    if (user.getState() != State.OFFLINE) {
+                        socketIOServer.getClient(user.getSessionID()).disconnect();
+                    }
+
+                    // set the state to IDLE and and the session ID of this socketIOClient
                     user.setState(State.IDLE);
                     user.setSessionID(socketIOClient.getSessionId());
                 }
 
                 // Send the HelloMessage to the client
-                socketIOClient.sendEvent(SocketMessageTypes.HELLO, new HelloMessage());
+                ArrayList<String> invites = new ArrayList<>();
+                for (SharedSession session : user.getInvitedTo()) {
+                    invites.add(session.getHost().getUsername());
+                }
+                socketIOClient.sendEvent(SocketMessageTypes.HELLO, new HelloMessage(invites));
             } else {
                 socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new InvalidInputErrorMessage());
                 socketIOClient.disconnect();

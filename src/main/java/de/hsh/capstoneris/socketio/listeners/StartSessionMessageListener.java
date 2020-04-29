@@ -3,6 +3,7 @@ package de.hsh.capstoneris.socketio.listeners;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 import de.hsh.capstoneris.data.sql.Connection;
 import de.hsh.capstoneris.rest.json.JsonUser;
@@ -10,6 +11,7 @@ import de.hsh.capstoneris.socketio.*;
 import de.hsh.capstoneris.socketio.messages.client.StartSessionMessage;
 import de.hsh.capstoneris.socketio.messages.server.SessionStartedMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.IllegalOperationErrorMessage;
+import de.hsh.capstoneris.socketio.messages.server.error.InvalidInputErrorMessage;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -18,27 +20,29 @@ import java.sql.SQLException;
 
 public class StartSessionMessageListener implements DataListener<StartSessionMessage> {
 
-    private Manager manager;
+    private final Manager manager;
+    private final SocketIOServer socketIOServer;
 
-    public StartSessionMessageListener(Manager manager) {
+    public StartSessionMessageListener(Manager manager, SocketIOServer socketIOServer) {
         this.manager = manager;
+        this.socketIOServer = socketIOServer;
     }
 
     @Override
     public void onData(SocketIOClient socketIOClient, StartSessionMessage startSessionMessage, AckRequest ackRequest) throws Exception {
+        User host = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
+
         // Check if user is logged in
-        if (!manager.isLoggedInBySessionID(socketIOClient.getSessionId())) {
+        if (host == null) {
             socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
             socketIOClient.disconnect();
             return;
         }
 
-        User host = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
 
         // Check if user is currently not in a session
         if (host.getState() != State.IDLE) {
             socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
-            socketIOClient.disconnect();
             return;
         }
 
@@ -62,7 +66,7 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
         }
 
         if (group == null) {
-            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
+            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new InvalidInputErrorMessage());
             return;
         }
 
@@ -79,11 +83,15 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
             session.invite(user);
         }
 
-        // Send invite messages to all users
-
         // Send Session started message to the creator
         host.setCurrentSession(session);
         host.setState(State.HOSTING);
         socketIOClient.sendEvent(SocketMessageTypes.SESSION_STARTED, new SessionStartedMessage());
+        socketIOClient.joinRoom(session.getRoom().getName());
+
+        // Send invite messages to all users
+        for (User user : session.getInvitedUsers()) {
+            manager.sendInvitationListUpdate(user, socketIOServer);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package de.hsh.capstoneris.socketio;
 
+import com.corundumstudio.socketio.SocketIOServer;
+import de.hsh.capstoneris.socketio.messages.server.InvitationListUpdateMessage;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -63,6 +66,16 @@ public class Manager {
     public boolean isLoggedInBySessionID(UUID sessionID) {
         User user = getUserBySessionIdIfExist(sessionID);
         return user != null;
+    }
+
+    public void sendInvitationListUpdate(User user, SocketIOServer socketIOServer) {
+        if (user.getState() != State.OFFLINE) {
+            ArrayList<String> invites = new ArrayList<>();
+            for (SharedSession sessions : user.getInvitedTo()) {
+                invites.add(sessions.getHost().getUsername());
+            }
+            socketIOServer.getClient(user.getSessionID()).sendEvent(SocketMessageTypes.INVITATION_LIST_UPDATE, new InvitationListUpdateMessage(invites));
+        }
     }
 
 }

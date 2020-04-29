@@ -53,14 +53,15 @@ public class Main {
         final Manager manager = new Manager();
 
         socketIOServer.addConnectListener(new SocketConnectListener());
-        socketIOServer.addDisconnectListener(new SocketDisconnectListener(manager));
+        socketIOServer.addDisconnectListener(new SocketDisconnectListener(manager, socketIOServer));
 
         socketIOServer.addEventListener(SocketMessageTypes.CLIENT_CHAT_MESSAGE, ChatMessage.class, new ChatMessageListener(manager));
         socketIOServer.addEventListener(SocketMessageTypes.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener(manager));
-        socketIOServer.addEventListener(SocketMessageTypes.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener());
+        socketIOServer.addEventListener(SocketMessageTypes.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());
-        socketIOServer.addEventListener(SocketMessageTypes.LOGIN, LoginMessage.class, new LoginMessageListener(manager));
-        socketIOServer.addEventListener(SocketMessageTypes.START_SESSION, StartSessionMessage.class, new StartSessionMessageListener(manager));
+        socketIOServer.addEventListener(SocketMessageTypes.LOGIN, LoginMessage.class, new LoginMessageListener(manager, socketIOServer));
+        socketIOServer.addEventListener(SocketMessageTypes.START_SESSION, StartSessionMessage.class, new StartSessionMessageListener(manager, socketIOServer));
+        socketIOServer.addEventListener(SocketMessageTypes.JOIN_SESSION, JoinSessionMessage.class, new JoinSessionMessageListener(manager, socketIOServer));
         return socketIOServer;
     }
 

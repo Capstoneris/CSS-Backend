@@ -29,6 +29,10 @@ public class User {
         this.currentSession = null;
     }
 
+    public void removeInvite(SharedSession session) {
+        invitedTo.remove(session);
+    }
+
     public void setState(State state) {
         this.state = state;
     }
@@ -42,7 +46,7 @@ public class User {
     }
 
     public void setCurrentSession(SharedSession session) {
-        this.currentSession = currentSession;
+        this.currentSession = session;
     }
 
     public ArrayList<SharedSession> getInvitedTo() {

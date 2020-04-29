@@ -19,6 +19,10 @@ public class SocketRoom {
         this.users.remove(user);
     }
 
+    public String getName() {
+        return name;
+    }
+
     public ArrayList<User> getUsers() {
         return users;
     }

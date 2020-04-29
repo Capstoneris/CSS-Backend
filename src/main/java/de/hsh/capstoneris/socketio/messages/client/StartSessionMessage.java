@@ -3,18 +3,18 @@ package de.hsh.capstoneris.socketio.messages.client;
 import de.hsh.capstoneris.rest.json.JsonUser;
 
 public class StartSessionMessage implements ClientMessage {
-
-    // public double timeStamp;
-    // public String startMessageContent;
+    public String startMessageContent;
     public String groupName;
-    // TODO List of Current states
     public JsonUser[] users;
+
     // TODO List of Current input field states
+    // TODO Timestamp
 
 
-    public StartSessionMessage(String groupName, JsonUser[] users) {
+    public StartSessionMessage(String groupName, JsonUser[] users, String startMessageContent) {
         this.groupName = groupName;
         this.users = users;
+        this.startMessageContent = startMessageContent;
 
     }
 
@@ -29,6 +29,7 @@ public class StartSessionMessage implements ClientMessage {
     public void setTimeStamp(double timeStamp) {
         this.timeStamp = timeStamp;
     }
+     */
 
     public String getStartMessageContent() {
         return startMessageContent;
@@ -37,7 +38,7 @@ public class StartSessionMessage implements ClientMessage {
     public void setStartMessageContent(String startMessageContent) {
         this.startMessageContent = startMessageContent;
     }
-     */
+
 
     public String getGroupName() {
         return groupName;

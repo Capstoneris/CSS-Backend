@@ -15,6 +15,7 @@ public class SharedSession {
         this.room = room;
         this.host = host;
         this.group = group;
+        joinedUsers.add(this.host);
     }
 
     public void invite(User user) {
@@ -52,6 +53,10 @@ public class SharedSession {
 
     public User getHost() {
         return host;
+    }
+
+    public ArrayList<User> getInvitedUsers() {
+        return invitedUsers;
     }
 
     public ArrayList<User> getJoinedUsers() {
