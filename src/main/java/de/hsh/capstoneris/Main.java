@@ -3,12 +3,13 @@ package de.hsh.capstoneris;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import de.hsh.capstoneris.socket.Socket;
-import de.hsh.capstoneris.socket.SocketManager;
-import de.hsh.capstoneris.socket.listeners.*;
-import de.hsh.capstoneris.socket.messages.ChatMessage;
-import de.hsh.capstoneris.socket.messages.client.*;
-import de.hsh.capstoneris.sql.Connection;
+import de.hsh.capstoneris.data.sql.Connection;
+import de.hsh.capstoneris.socketio.Manager;
+import de.hsh.capstoneris.socketio.SocketMessageTypes;
+import de.hsh.capstoneris.socketio.listeners.*;
+import de.hsh.capstoneris.socketio.messages.ChatMessage;
+import de.hsh.capstoneris.socketio.messages.client.*;
+import de.hsh.capstoneris.util.CORSResponseFilter;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -49,17 +50,18 @@ public class Main {
         config.setPort(8082);
 
         final SocketIOServer socketIOServer = new SocketIOServer(config);
-        final SocketManager socketManager = new SocketManager();
+        final Manager manager = new Manager();
 
         socketIOServer.addConnectListener(new SocketConnectListener());
-        socketIOServer.addDisconnectListener(new SocketDisconnectListener(socketManager));
+        socketIOServer.addDisconnectListener(new SocketDisconnectListener(manager, socketIOServer));
 
-        socketIOServer.addEventListener(Socket.CLIENT_CHAT_MESSAGE, ChatMessage.class, new ChatMessageListener());
-        socketIOServer.addEventListener(Socket.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener());
-        socketIOServer.addEventListener(Socket.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener());
-        socketIOServer.addEventListener(Socket.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());
-        socketIOServer.addEventListener(Socket.LOGIN, LoginMessage.class, new LoginMessageListener(socketManager));
-        socketIOServer.addEventListener(Socket.START_SESSION, StartSessionMessage.class, new StartSessionMessageListener());
+        socketIOServer.addEventListener(SocketMessageTypes.CLIENT_CHAT_MESSAGE, ChatMessage.class, new ChatMessageListener(manager));
+        socketIOServer.addEventListener(SocketMessageTypes.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener(manager));
+        socketIOServer.addEventListener(SocketMessageTypes.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener(manager, socketIOServer));
+        socketIOServer.addEventListener(SocketMessageTypes.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());
+        socketIOServer.addEventListener(SocketMessageTypes.LOGIN, LoginMessage.class, new LoginMessageListener(manager, socketIOServer));
+        socketIOServer.addEventListener(SocketMessageTypes.START_SESSION, StartSessionMessage.class, new StartSessionMessageListener(manager, socketIOServer));
+        socketIOServer.addEventListener(SocketMessageTypes.JOIN_SESSION, JoinSessionMessage.class, new JoinSessionMessageListener(manager, socketIOServer));
         return socketIOServer;
     }
 

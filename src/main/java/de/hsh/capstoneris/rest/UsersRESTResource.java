@@ -1,7 +1,7 @@
 package de.hsh.capstoneris.rest;
 
-import de.hsh.capstoneris.bo.GroupBO;
-import de.hsh.capstoneris.bo.UsersBO;
+import de.hsh.capstoneris.data.bo.GroupBO;
+import de.hsh.capstoneris.data.bo.UsersBO;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

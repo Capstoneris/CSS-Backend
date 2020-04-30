@@ -1,12 +1,11 @@
 package de.hsh.capstoneris.rest;
 
-import de.hsh.capstoneris.Authenticator;
+import de.hsh.capstoneris.util.Authenticator;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.*;
-import java.util.Map;
 
 @Path("auth/logout")
 public class LogoutRESTResource {
