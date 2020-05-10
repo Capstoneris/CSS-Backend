@@ -1,22 +1,24 @@
 package de.hsh.capstoneris.socketio.messages.client;
 
+import de.hsh.capstoneris.rest.json.JsonUser;
+
 public class JoinSessionMessage implements ClientMessage {
 
-    public String hostName;
+    public JsonUser host;
 
-    public JoinSessionMessage(String hostName) {
-        this.hostName = hostName;
+    public JoinSessionMessage(JsonUser host) {
+        this.host = host;
     }
 
     public JoinSessionMessage() {
     }
 
-    public String getHostName() {
-        return hostName;
+    public JsonUser getHost() {
+        return host;
     }
 
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
+    public void setHost(JsonUser host) {
+        this.host = host;
     }
 
     /*TODO join-session

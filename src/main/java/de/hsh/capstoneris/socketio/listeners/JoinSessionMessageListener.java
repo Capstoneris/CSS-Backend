@@ -41,7 +41,7 @@ public class JoinSessionMessageListener implements DataListener<JoinSessionMessa
         }
 
         for (SharedSession session : manager.getSessions()) {
-            if (session.getHost().getUsername().equals(joinSessionMessage.hostName) && session.isAlive()) {
+            if (session.getHost().getUsername().equals(joinSessionMessage.getHost().getUsername()) && session.isAlive() && guest.getInvitedTo().contains(session)) {
                 session.join(guest);
                 guest.setCurrentSession(session);
                 guest.setState(State.JOINED);
