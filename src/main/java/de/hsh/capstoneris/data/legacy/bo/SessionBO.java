@@ -1,5 +1,5 @@
-package de.hsh.capstoneris.data.bo;
-import de.hsh.capstoneris.data.dao.SessionDAO;
+package de.hsh.capstoneris.data.legacy.bo;
+import de.hsh.capstoneris.data.legacy.dao.SessionDAO;
 
 public class SessionBO extends SessionDAO {
 
