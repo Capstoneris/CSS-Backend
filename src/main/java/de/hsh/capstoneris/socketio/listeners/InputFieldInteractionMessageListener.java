@@ -11,6 +11,8 @@ import de.hsh.capstoneris.socketio.User;
 import de.hsh.capstoneris.socketio.messages.client.InputFieldInteractionMessage;
 import de.hsh.capstoneris.socketio.messages.server.InputfieldChangedMessage;
 
+import java.util.ArrayList;
+
 public class InputFieldInteractionMessageListener implements DataListener<InputFieldInteractionMessage> {
     private Manager manager;
     private SocketIOServer socketIOServer;
@@ -42,7 +44,7 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
             session.getInputFieldStates().replace(fieldId, newValue);
             socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(
                     SocketMessageTypes.INPUTFIELD_CHANGED,
-                    new InputfieldChangedMessage(changingUser.getUsername(), fieldId, newValue)
+                    new InputfieldChangedMessage(changingUser.getUsername(), fieldId, newValue, new ArrayList<User>())
             );
         }
     }

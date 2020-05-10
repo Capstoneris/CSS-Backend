@@ -78,6 +78,7 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
             User user = manager.getUserByNameIfExist(jsonUser.getUsername());
             if (user == null) {
                 user = new User(jsonUser.getUsername());
+                manager.addUser(user);
             }
             user.addSessionUserIsInvitedTo(session);
             session.invite(user);
