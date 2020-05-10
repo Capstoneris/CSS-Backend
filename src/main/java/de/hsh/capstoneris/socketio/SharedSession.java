@@ -13,13 +13,19 @@ public class SharedSession {
     private boolean alive = true;
     private HashMap<String, String> inputFieldStates = new HashMap<>();
     private String inviteMessage;
+    private long timeStamp;
 
-    public SharedSession(SocketRoom room, User host, Group group, String inviteMessage) {
+    public SharedSession(SocketRoom room, User host, Group group, String inviteMessage, long timeStamp) {
         this.room = room;
         this.host = host;
         this.group = group;
         this.inviteMessage = inviteMessage;
+        this.timeStamp = timeStamp;
         joinedUsers.add(this.host);
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
     public void invite(User user) {

@@ -70,7 +70,7 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
             return;
         }
 
-        SharedSession session = new SharedSession(new SocketRoom(socketIOClient.getSessionId().toString() + "-session"), host, group, startSessionMessage.startMessageContent);
+        SharedSession session = new SharedSession(new SocketRoom(socketIOClient.getSessionId().toString() + "-session"), host, group, startSessionMessage.startMessageContent, startSessionMessage.timeStamp);
         manager.addSession(session);
 
         // Create Invites for all users (maybe check if user is in same group here)

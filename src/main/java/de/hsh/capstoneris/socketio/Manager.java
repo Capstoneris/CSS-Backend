@@ -74,7 +74,7 @@ public class Manager {
         if (user.getState() != State.OFFLINE) {
             ArrayList<JsonInvite> invites = new ArrayList<>();
             for (SharedSession sessions : user.getInvitedTo()) {
-                invites.add(new JsonInvite(new JsonUser(sessions.getHost()), sessions.getInviteMessage()));
+                invites.add(new JsonInvite(new JsonUser(sessions.getHost()), sessions.getInviteMessage(), sessions.getTimeStamp()));
             }
             socketIOServer.getClient(user.getSessionID()).sendEvent(SocketMessageTypes.INVITATION_LIST_UPDATE, new InvitationListUpdateMessage(invites));
         }

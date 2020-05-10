@@ -6,12 +6,12 @@ public class StartSessionMessage implements ClientMessage {
     public String startMessageContent;
     public String groupName;
     public JsonUser[] users;
+    public long timeStamp;
 
     // TODO List of Current input field states
-    // TODO Timestamp
 
 
-    public StartSessionMessage(String groupName, JsonUser[] users, String startMessageContent) {
+    public StartSessionMessage(String groupName, JsonUser[] users, String startMessageContent, long timeStamp) {
         this.groupName = groupName;
         this.users = users;
         this.startMessageContent = startMessageContent;
@@ -21,15 +21,15 @@ public class StartSessionMessage implements ClientMessage {
     public StartSessionMessage() {
     }
 
-    /*
-    public double getTimeStamp() {
+
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(double timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
-     */
+
 
     public String getStartMessageContent() {
         return startMessageContent;
