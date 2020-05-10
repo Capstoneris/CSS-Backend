@@ -12,11 +12,13 @@ public class SharedSession {
     private final ArrayList<String> chatHistory = new ArrayList<>();
     private boolean alive = true;
     private HashMap<String, String> inputFieldStates = new HashMap<>();
+    private String inviteMessage;
 
-    public SharedSession(SocketRoom room, User host, Group group) {
+    public SharedSession(SocketRoom room, User host, Group group, String inviteMessage) {
         this.room = room;
         this.host = host;
         this.group = group;
+        this.inviteMessage = inviteMessage;
         joinedUsers.add(this.host);
     }
 
@@ -67,6 +69,10 @@ public class SharedSession {
 
     public ArrayList<String> getChatHistory() {
         return chatHistory;
+    }
+
+    public String getInviteMessage() {
+        return inviteMessage;
     }
 
     public HashMap<String, String> getInputFieldStates() {

@@ -1,21 +1,23 @@
 package de.hsh.capstoneris.socketio.messages.server;
 
+import de.hsh.capstoneris.rest.json.JsonInvite;
+
 import java.util.ArrayList;
 
 public class InvitationListUpdateMessage implements ServerMessage {
 
     //List of hostnames that invited the user
-    public ArrayList<String> invites;
+    public ArrayList<JsonInvite> invites;
 
-    public void setInvites(ArrayList<String> invites) {
+    public void setInvites(ArrayList<JsonInvite> invites) {
         this.invites = invites;
     }
 
-    public InvitationListUpdateMessage(ArrayList<String> invites) {
+    public InvitationListUpdateMessage(ArrayList<JsonInvite> invites) {
         this.invites = invites;
     }
 
-    public ArrayList<String> getInvites() {
+    public ArrayList<JsonInvite> getInvites() {
         return invites;
     }
 

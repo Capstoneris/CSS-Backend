@@ -4,6 +4,8 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
+import de.hsh.capstoneris.rest.json.JsonInvite;
+import de.hsh.capstoneris.rest.json.JsonUser;
 import de.hsh.capstoneris.socketio.*;
 import de.hsh.capstoneris.socketio.messages.client.LoginMessage;
 import de.hsh.capstoneris.socketio.messages.server.HelloMessage;
@@ -61,9 +63,9 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
                 }
 
                 // Send the HelloMessage to the client
-                ArrayList<String> invites = new ArrayList<>();
-                for (SharedSession session : user.getInvitedTo()) {
-                    invites.add(session.getHost().getUsername());
+                ArrayList<JsonInvite> invites = new ArrayList<>();
+                for (SharedSession sessions : user.getInvitedTo()) {
+                    invites.add(new JsonInvite(new JsonUser(sessions.getHost()), sessions.getInviteMessage()));
                 }
                 socketIOClient.sendEvent(SocketMessageTypes.HELLO, new HelloMessage(invites));
             } else {

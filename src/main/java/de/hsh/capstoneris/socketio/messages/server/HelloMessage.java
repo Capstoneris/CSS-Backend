@@ -1,19 +1,21 @@
 package de.hsh.capstoneris.socketio.messages.server;
 
+import de.hsh.capstoneris.rest.json.JsonInvite;
+
 import java.util.ArrayList;
 
 public class HelloMessage implements ServerMessage {
-    public ArrayList<String> invites;
+    public ArrayList<JsonInvite> invites;
 
-    public HelloMessage(ArrayList<String> invites) {
+    public HelloMessage(ArrayList<JsonInvite> invites) {
         this.invites = invites;
     }
 
-    public ArrayList<String> getInvites() {
+    public ArrayList<JsonInvite> getInvites() {
         return invites;
     }
 
-    public void setInvites(ArrayList<String> invites) {
+    public void setInvites(ArrayList<JsonInvite> invites) {
         this.invites = invites;
     }
 
