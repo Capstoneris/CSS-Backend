@@ -1,6 +1,7 @@
 package de.hsh.capstoneris.socketio;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SharedSession {
     private final SocketRoom room;
@@ -10,6 +11,7 @@ public class SharedSession {
     private final ArrayList<User> invitedUsers = new ArrayList<>();
     private final ArrayList<String> chatHistory = new ArrayList<>();
     private boolean alive = true;
+    private HashMap<String, String> inputFieldStates = new HashMap<>();
 
     public SharedSession(SocketRoom room, User host, Group group) {
         this.room = room;
@@ -65,6 +67,10 @@ public class SharedSession {
 
     public ArrayList<String> getChatHistory() {
         return chatHistory;
+    }
+
+    public HashMap<String, String> getInputFieldStates() {
+        return inputFieldStates;
     }
 
     public Group getGroup() {

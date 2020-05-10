@@ -56,7 +56,7 @@ public class Main {
         socketIOServer.addDisconnectListener(new SocketDisconnectListener(manager, socketIOServer));
 
         socketIOServer.addEventListener(SocketMessageTypes.CLIENT_CHAT_MESSAGE, ChatMessage.class, new ChatMessageListener(manager));
-        socketIOServer.addEventListener(SocketMessageTypes.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener(manager));
+        socketIOServer.addEventListener(SocketMessageTypes.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());
         socketIOServer.addEventListener(SocketMessageTypes.LOGIN, LoginMessage.class, new LoginMessageListener(manager, socketIOServer));
@@ -83,7 +83,7 @@ public class Main {
         final SocketIOServer socketIOServer = createSocketIOServer();
         socketIOServer.start();
 
-        System.out.println(String.format("CSS-Backend started!\nHit CTRL+C to stop it...", BASE_URI));
+        System.out.println(String.format("CSS-Backend started!\nHit CTRL+C to stop it..."));
 
 
         testDBConnection();
