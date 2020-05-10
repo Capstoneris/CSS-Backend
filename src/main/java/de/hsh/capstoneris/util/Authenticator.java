@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Authenticator {
     public static final String SECRET = "secret";
@@ -63,8 +64,15 @@ public class Authenticator {
     }
 
     public static String extractToken(HttpHeaders httpHeaders) {
-        String token = httpHeaders.getRequestHeader("Authorization").get(0).split(" ")[1];
-        return token;
+        List<String> headerValues = httpHeaders.getRequestHeader(HttpHeaders.AUTHORIZATION);
+        if (headerValues != null) {
+            String token = headerValues.get(0).split(" ")[1];
+            System.out.println(token);
+            return token;
+        } else {
+            return null;
+        }
+
     }
 
 }
