@@ -4,9 +4,11 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
+import de.hsh.capstoneris.rest.json.JsonUser;
 import de.hsh.capstoneris.socketio.*;
 import de.hsh.capstoneris.socketio.messages.client.JoinSessionMessage;
 import de.hsh.capstoneris.socketio.messages.server.MemberListUpdateMessage;
+import de.hsh.capstoneris.socketio.messages.server.SessionJoinedMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.IllegalOperationErrorMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.InvalidInputErrorMessage;
 
@@ -50,6 +52,9 @@ public class JoinSessionMessageListener implements DataListener<JoinSessionMessa
                 for (User user : session.getJoinedUsers()) {
                     joinedUsers.add(user.getUsername());
                 }
+                guest.getInvitedTo().remove(session);
+                manager.sendInvitationListUpdate(manager.getUserBySessionIdIfExist(socketIOClient.getSessionId()), socketIOServer);
+                socketIOClient.sendEvent(SocketMessageTypes.SESSION_JOINED, new SessionJoinedMessage(new JsonUser(session.getHost()), new ArrayList<String>()));
                 socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(SocketMessageTypes.MEMBER_LIST_UPDATE, new MemberListUpdateMessage(joinedUsers));
                 break;
             } else {

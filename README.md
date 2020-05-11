@@ -94,7 +94,99 @@ in your terminal to start the database.
 * Responses
     * Status 200 is returned when logout successful
     * Status 401 is returned when logout not successful (for example when already logged out)
-    
+
+## Websocket Protocol
+### Used objects
+```json
+{
+  "User": {
+    "id": "long",
+    "username": "string"
+  },
+  "Invite": {
+    "host": "User",
+    "message": "string",
+    "timestamp": "long"
+  },
+  "ChatMessage": {
+    "timestamp": "long",
+    "sentBy": "User",
+    "messageContent": "string"
+  },
+  "InputfieldState": {
+    "fieldID": "string",
+    "state": "string"
+  }
+}
+```
+
+### Messages
+```json
+{
+  "client-side": {
+    "login": {
+      "token": "string"
+    },
+    "start-session": {
+      "startMessageContent": "string",
+      "groupName": "string",
+      "users": "User[]",
+      "timestamp": "long"
+    },
+    "join-session": {
+      "host": "User"
+    },
+    "send-chat-message": {
+      "timestamp": "long",
+      "messageContent": "string"
+    },
+    "inputfield-interaction": {
+      "fieldID": "string",
+      "changed": "boolean",
+      "oldValue": "string",
+      "newValue": "string",
+      "cursorStart": "integer",
+      "cursorEnd": "integer"
+    },
+    "leave-session": {},
+    "kick-member": {
+      "member": "User"
+    }
+  },
+  "server-side": {
+    "hello": {
+      "invites": "Invite[]"
+    },
+    "session-started": {},
+    "session-joined": {
+      "host": "User",
+      "state": "InputfieldState[]",
+      "chatHistory": "ChatMessage[]"
+    },
+    "member-list-update": {
+      "users": "User[]"
+    },
+    "chat-message": {
+      "timestamp": "long",
+      "sentBy": "User",
+      "messageContent": "string"
+    },
+    "inputfield-changed": {
+      "user": "User",
+      "fieldID": "string",
+      "value": "string",
+      "selections": "User[]"
+    },
+    "session-left": {
+      "reason": "string"
+    },
+    "error": {
+      "status": "integer",
+      "message": "string"
+    }
+  }
+}
+```    
     
 
 ## Recommended Technology Stack

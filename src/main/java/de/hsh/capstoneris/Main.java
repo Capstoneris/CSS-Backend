@@ -7,7 +7,7 @@ import de.hsh.capstoneris.data.sql.Connection;
 import de.hsh.capstoneris.socketio.Manager;
 import de.hsh.capstoneris.socketio.SocketMessageTypes;
 import de.hsh.capstoneris.socketio.listeners.*;
-import de.hsh.capstoneris.socketio.messages.ChatMessage;
+import de.hsh.capstoneris.socketio.messages.client.SendChatMessage;
 import de.hsh.capstoneris.socketio.messages.client.*;
 import de.hsh.capstoneris.util.CORSResponseFilter;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -55,7 +55,7 @@ public class Main {
         socketIOServer.addConnectListener(new SocketConnectListener());
         socketIOServer.addDisconnectListener(new SocketDisconnectListener(manager, socketIOServer));
 
-        socketIOServer.addEventListener(SocketMessageTypes.CLIENT_CHAT_MESSAGE, ChatMessage.class, new ChatMessageListener(manager));
+        socketIOServer.addEventListener(SocketMessageTypes.CLIENT_CHAT_MESSAGE, SendChatMessage.class, new SendChatMessageListener(manager));
         socketIOServer.addEventListener(SocketMessageTypes.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());

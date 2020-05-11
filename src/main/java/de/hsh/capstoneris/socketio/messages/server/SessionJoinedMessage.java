@@ -1,24 +1,26 @@
 package de.hsh.capstoneris.socketio.messages.server;
 
+import de.hsh.capstoneris.rest.json.JsonUser;
+
 import java.util.ArrayList;
 
 public class SessionJoinedMessage implements ServerMessage {
 
-    public String hostname;
+    public JsonUser host;
     // list of members
     public ArrayList<String> chatHistory;
 
-    public SessionJoinedMessage(String hostname, ArrayList<String> chatHistory) {
-        this.hostname = hostname;
+    public SessionJoinedMessage(JsonUser host, ArrayList<String> chatHistory) {
+        this.host = host;
         this.chatHistory = chatHistory;
     }
 
-    public String getHostname() {
-        return hostname;
+    public JsonUser getHostname() {
+        return host;
     }
 
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
+    public void setHostname(JsonUser host) {
+        this.host = host;
     }
 
     public ArrayList<String> getChatHistory() {

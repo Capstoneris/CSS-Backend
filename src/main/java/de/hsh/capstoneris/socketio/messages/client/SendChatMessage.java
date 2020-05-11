@@ -1,19 +1,19 @@
-package de.hsh.capstoneris.socketio.messages;
+package de.hsh.capstoneris.socketio.messages.client;
 
-public class ChatMessage implements Message {
-    public double timeStamp;
+public class SendChatMessage implements ClientMessage {
+    public long timeStamp;
     public String messageContent;
 
-    public ChatMessage(double timeStamp, String messageContent) {
+    public SendChatMessage(long timeStamp, String messageContent) {
         this.timeStamp = timeStamp;
         this.messageContent = messageContent;
     }
 
-    public double getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(double timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 
