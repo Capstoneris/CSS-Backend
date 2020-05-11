@@ -53,7 +53,7 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
 
             PreparedStatement stmt = conn.setupPreparedStatement("select id, title from css.groups g where g.title=?");
 
-            stmt.setString(1, startSessionMessage.groupName);
+            stmt.setString(1, startSessionMessage.group.title);
             stmt.execute();
             ResultSet result = stmt.getResultSet();
             if (result.next()) {
@@ -70,7 +70,7 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
             return;
         }
 
-        SharedSession session = new SharedSession(new SocketRoom(socketIOClient.getSessionId().toString() + "-session"), host, group, startSessionMessage.startMessageContent, startSessionMessage.timeStamp);
+        SharedSession session = new SharedSession(new SocketRoom(socketIOClient.getSessionId().toString() + "-session"), host, group, startSessionMessage.message, startSessionMessage.timestamp);
         manager.addSession(session);
 
         // Create Invites for all users (maybe check if user is in same group here)

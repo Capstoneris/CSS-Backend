@@ -3,6 +3,7 @@ package de.hsh.capstoneris.socketio.listeners;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DisconnectListener;
+import de.hsh.capstoneris.rest.json.JsonUser;
 import de.hsh.capstoneris.socketio.*;
 import de.hsh.capstoneris.socketio.messages.server.MemberListUpdateMessage;
 
@@ -54,9 +55,9 @@ public class SocketDisconnectListener implements DisconnectListener {
                 SharedSession currentSession = user.getCurrentSession();
                 currentSession.kick(user);
 
-                ArrayList<String> joinedUsers = new ArrayList<>();
+                ArrayList<JsonUser> joinedUsers = new ArrayList<>();
                 for (User u : currentSession.getJoinedUsers()) {
-                    joinedUsers.add(u.getUsername());
+                    joinedUsers.add(new JsonUser(u));
                 }
 
                 socketIOClient.sendEvent(SocketMessageTypes.LEAVE_SESSION, "SESSION LEFT (" + user.getUsername().toUpperCase() + ")");

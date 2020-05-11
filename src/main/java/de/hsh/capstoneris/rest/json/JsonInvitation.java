@@ -1,23 +1,23 @@
 package de.hsh.capstoneris.rest.json;
 
 
-public class JsonInvite {
+public class JsonInvitation {
     public JsonUser host;
     public String message;
-    public long timeStamp;
+    public long timestamp;
 
-    public JsonInvite(JsonUser host, String message, long timeStamp) {
+    public JsonInvitation(JsonUser host, String message, long timestamp) {
         this.host = host;
         this.message = message;
-        this.timeStamp = timeStamp;
+        this.timestamp = timestamp;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public JsonUser getHost() {

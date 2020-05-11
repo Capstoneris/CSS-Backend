@@ -37,7 +37,7 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
     @Override
     public void onData(SocketIOClient socketIOClient, InputFieldInteractionMessage inputFieldInteractionMessage, AckRequest ackRequest) throws Exception {
         User changingUser = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
-        String fieldId = inputFieldInteractionMessage.fieldID;
+        String fieldId = inputFieldInteractionMessage.fieldId;
         SharedSession session = changingUser.getCurrentSession();
         if (inputFieldInteractionMessage.getOldValue().equals(session.getInputFieldStates().get(fieldId))) {
             String newValue = inputFieldInteractionMessage.newValue;

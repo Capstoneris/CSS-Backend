@@ -1,51 +1,62 @@
 package de.hsh.capstoneris.socketio.messages.client;
 
+import de.hsh.capstoneris.rest.json.JsonGroup;
+import de.hsh.capstoneris.rest.json.JsonInputfieldState;
 import de.hsh.capstoneris.rest.json.JsonUser;
 
 public class StartSessionMessage implements ClientMessage {
-    public String startMessageContent;
-    public String groupName;
+    public String message;
+    public JsonGroup group;
     public JsonUser[] users;
-    public long timeStamp;
+    public long timestamp;
+    public JsonInputfieldState[] inputfieldStates;
 
     // TODO List of Current input field states
 
 
-    public StartSessionMessage(String groupName, JsonUser[] users, String startMessageContent, long timeStamp) {
-        this.groupName = groupName;
+    public StartSessionMessage(JsonGroup group, JsonUser[] users, String message, long timestamp, JsonInputfieldState[] inputfieldStates) {
+        this.group = group;
+        this.inputfieldStates = inputfieldStates;
         this.users = users;
-        this.startMessageContent = startMessageContent;
+        this.message = message;
 
     }
 
     public StartSessionMessage() {
     }
 
-
-    public long getTimeStamp() {
-        return timeStamp;
+    public JsonInputfieldState[] getInputfieldStates() {
+        return inputfieldStates;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setInputfieldStates(JsonInputfieldState[] inputfieldStates) {
+        this.inputfieldStates = inputfieldStates;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
 
-    public String getStartMessageContent() {
-        return startMessageContent;
+    public String getMessage() {
+        return message;
     }
 
-    public void setStartMessageContent(String startMessageContent) {
-        this.startMessageContent = startMessageContent;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 
-    public String getGroupName() {
-        return groupName;
+    public JsonGroup getGroup() {
+        return group;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setGroup(JsonGroup group) {
+        this.group = group;
     }
 
     public JsonUser[] getUsers() {

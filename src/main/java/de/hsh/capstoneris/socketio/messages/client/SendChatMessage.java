@@ -1,28 +1,23 @@
 package de.hsh.capstoneris.socketio.messages.client;
 
+import de.hsh.capstoneris.rest.json.JsonChatMessage;
+
 public class SendChatMessage implements ClientMessage {
-    public long timeStamp;
-    public String messageContent;
+    public JsonChatMessage message;
 
-    public SendChatMessage(long timeStamp, String messageContent) {
-        this.timeStamp = timeStamp;
-        this.messageContent = messageContent;
+    public SendChatMessage() {
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public SendChatMessage(JsonChatMessage message) {
+        this.message = message;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public JsonChatMessage getMessage() {
+        return message;
     }
 
-    public String getMessageContent() {
-        return messageContent;
-    }
-
-    public void setMessageContent(String messageContent) {
-        this.messageContent = messageContent;
+    public void setMessage(JsonChatMessage message) {
+        this.message = message;
     }
 
     /*TODO send-chat-message

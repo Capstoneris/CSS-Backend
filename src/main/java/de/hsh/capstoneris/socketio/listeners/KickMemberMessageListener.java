@@ -34,7 +34,7 @@ public class KickMemberMessageListener implements DataListener<KickMemberMessage
             return;
         }
 
-        User toBeKicked = manager.getUserByNameIfExist(kickMemberMessage.getUsername());
+        User toBeKicked = manager.getUserByNameIfExist(kickMemberMessage.getMember().getUsername());
         if (toBeKicked.getCurrentSession().equals(host.getCurrentSession())) {
             SharedSession currentSession = host.getCurrentSession();
             currentSession.kick(toBeKicked);

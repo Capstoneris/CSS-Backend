@@ -115,7 +115,7 @@ in your terminal to start the database.
   "ChatMessage": {
     "timestamp": "long",
     "sentBy": "User",
-    "content": "string"
+    "message": "string"
   },
   "InputfieldState": {
     "fieldId": "string",
@@ -148,8 +148,7 @@ in your terminal to start the database.
       "host": "User"
     },
     "send-chat-message": {
-      "timestamp": "long",
-      "message": "string"
+      "message": "ChatMessage"
     },
     "inputfield-interaction": {
       "fieldId": "string",
@@ -181,9 +180,7 @@ in your terminal to start the database.
       "users": "User[]"
     },
     "chat-message": {
-      "timestamp": "long",
-      "sentBy": "User",
-      "message": "string"
+      "message": "ChatMessage"
     },
     "inputfield-changed": {
       "user": "User",

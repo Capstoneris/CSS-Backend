@@ -48,13 +48,13 @@ public class JoinSessionMessageListener implements DataListener<JoinSessionMessa
                 guest.setCurrentSession(session);
                 guest.setState(State.JOINED);
                 socketIOClient.joinRoom(session.getRoom().getName());
-                ArrayList<String> joinedUsers = new ArrayList<>();
+                ArrayList<JsonUser> joinedUsers = new ArrayList<>();
                 for (User user : session.getJoinedUsers()) {
-                    joinedUsers.add(user.getUsername());
+                    joinedUsers.add(new JsonUser(user));
                 }
                 guest.getInvitedTo().remove(session);
                 manager.sendInvitationListUpdate(manager.getUserBySessionIdIfExist(socketIOClient.getSessionId()), socketIOServer);
-                socketIOClient.sendEvent(SocketMessageTypes.SESSION_JOINED, new SessionJoinedMessage(new JsonUser(session.getHost()), new ArrayList<String>()));
+                socketIOClient.sendEvent(SocketMessageTypes.SESSION_JOINED, new SessionJoinedMessage(new JsonUser(session.getHost()), new ArrayList<>(), new ArrayList<>()));
                 socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(SocketMessageTypes.MEMBER_LIST_UPDATE, new MemberListUpdateMessage(joinedUsers));
                 break;
             } else {
