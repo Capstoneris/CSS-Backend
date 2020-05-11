@@ -76,7 +76,7 @@ in your terminal to start the database.
 ```
 * Responses
   * Successful:
-    * If user exists a JWT is generated and set as cookie (name `css-jwt`) and status 200 is returned
+    * If user exists a JWT is generated (name `token`) and status 200 is returned
   * Unsuccessful:
     * If user does not exist, Status 401 is returned
     * If something goes wrong in the process (SQL or JWT problems), Status 500 is returned
@@ -187,8 +187,7 @@ in your terminal to start the database.
     },
     "inputfield-changed": {
       "user": "User",
-      "state": "InputfieldState",
-      "selections": "InputfieldSelection[]"
+      "state": "InputfieldState"
     },
     "session-left": {
       "reason": "string"
