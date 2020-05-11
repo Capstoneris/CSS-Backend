@@ -6,12 +6,8 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 import de.hsh.capstoneris.socketio.Manager;
 import de.hsh.capstoneris.socketio.SharedSession;
-import de.hsh.capstoneris.socketio.SocketMessageTypes;
 import de.hsh.capstoneris.socketio.User;
 import de.hsh.capstoneris.socketio.messages.client.InputFieldInteractionMessage;
-import de.hsh.capstoneris.socketio.messages.server.InputfieldChangedMessage;
-
-import java.util.ArrayList;
 
 public class InputFieldInteractionMessageListener implements DataListener<InputFieldInteractionMessage> {
     private Manager manager;
@@ -42,10 +38,12 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
         if (inputFieldInteractionMessage.getOldValue().equals(session.getInputFieldStates().get(fieldId))) {
             String newValue = inputFieldInteractionMessage.newValue;
             session.getInputFieldStates().replace(fieldId, newValue);
+            /*
             socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(
                     SocketMessageTypes.INPUTFIELD_CHANGED,
                     new InputfieldChangedMessage(changingUser.getUsername(), fieldId, newValue, new ArrayList<User>())
             );
+            */
         }
     }
 }
