@@ -115,7 +115,8 @@ in your terminal to start the database.
   },
   "InputfieldState": {
     "fieldID": "string",
-    "value": "string"
+    "value": "string",
+    "selectedBy": "User[]"
   }
 }
 ```
@@ -132,7 +133,7 @@ in your terminal to start the database.
       "groupName": "string",
       "users": "User[]",
       "timestamp": "long",
-      "state": "InputfieldState[]"
+      "inputfieldStates": "InputfieldState[]"
     },
     "join-session": {
       "host": "User"
