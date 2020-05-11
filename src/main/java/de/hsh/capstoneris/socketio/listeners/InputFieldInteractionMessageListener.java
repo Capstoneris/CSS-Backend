@@ -4,10 +4,16 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
+import de.hsh.capstoneris.rest.json.JsonInputfieldState;
+import de.hsh.capstoneris.rest.json.JsonUser;
 import de.hsh.capstoneris.socketio.Manager;
 import de.hsh.capstoneris.socketio.SharedSession;
+import de.hsh.capstoneris.socketio.SocketMessageTypes;
 import de.hsh.capstoneris.socketio.User;
 import de.hsh.capstoneris.socketio.messages.client.InputFieldInteractionMessage;
+import de.hsh.capstoneris.socketio.messages.server.InputfieldChangedMessage;
+import de.hsh.capstoneris.util.Logger;
+import de.hsh.capstoneris.util.Service;
 
 public class InputFieldInteractionMessageListener implements DataListener<InputFieldInteractionMessage> {
     private Manager manager;
@@ -32,18 +38,51 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
 
     @Override
     public void onData(SocketIOClient socketIOClient, InputFieldInteractionMessage inputFieldInteractionMessage, AckRequest ackRequest) throws Exception {
+        Logger.log(Service.SOCKET, "Getting InputfieldInteractionMessage. Content: fieldId: "
+                + inputFieldInteractionMessage.fieldId +
+                " oldValue: " + inputFieldInteractionMessage.oldValue +
+                " newValue: " + inputFieldInteractionMessage.newValue +
+                " changed: " + inputFieldInteractionMessage.changed);
+        User editor = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
+
+
         User changingUser = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
-        String fieldId = inputFieldInteractionMessage.fieldId;
-        SharedSession session = changingUser.getCurrentSession();
-        if (inputFieldInteractionMessage.getOldValue().equals(session.getInputFieldStates().get(fieldId))) {
-            String newValue = inputFieldInteractionMessage.newValue;
-            session.getInputFieldStates().replace(fieldId, newValue);
-            /*
-            socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(
-                    SocketMessageTypes.INPUTFIELD_CHANGED,
-                    new InputfieldChangedMessage(changingUser.getUsername(), fieldId, newValue, new ArrayList<User>())
-            );
-            */
+        if (changingUser != null) {
+            Logger.log(Service.SOCKET, "Working on changing inputfield for " + changingUser.getUsername());
+            String fieldId = inputFieldInteractionMessage.fieldId;
+            SharedSession session = changingUser.getCurrentSession();
+            JsonInputfieldState state = session.getInputfieldStateIfExists(fieldId);
+            boolean changed = (inputFieldInteractionMessage.oldValue == null ^ inputFieldInteractionMessage.newValue == null) || !inputFieldInteractionMessage.oldValue.equals(inputFieldInteractionMessage.newValue);
+            if (state == null) {
+                Logger.log(Service.SOCKET, "Inputfield " + fieldId + " not yet existing in the manager, creating...");
+                String newValue = "";
+                if (changed) {
+                    newValue = inputFieldInteractionMessage.newValue;
+                }
+                state = new JsonInputfieldState(fieldId, newValue, null);
+                session.getInputFieldStates().add(state);
+                Logger.log(Service.SOCKET, "Sending value of inputfield " + fieldId + " to all users");
+                socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(
+                        SocketMessageTypes.INPUTFIELD_CHANGED,
+                        new InputfieldChangedMessage(new JsonUser(changingUser), state)
+                );
+            } else {
+                Logger.log(Service.SOCKET, "Comparing old values (" + state.value + " == " + inputFieldInteractionMessage.getOldValue() + ")");
+                if (changed && inputFieldInteractionMessage.getOldValue().equals(state.value)) {
+                    Logger.log(Service.SOCKET, "Change accepted. Setting new value " + inputFieldInteractionMessage.newValue);
+                    state.value = inputFieldInteractionMessage.newValue;
+                } else {
+                    Logger.log(Service.SOCKET, "Sending old value " + state.value + " to all users.");
+                }
+
+                socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(
+                        SocketMessageTypes.INPUTFIELD_CHANGED,
+                        new InputfieldChangedMessage(new JsonUser(changingUser), state)
+                );
+            }
+
         }
+
+
     }
 }

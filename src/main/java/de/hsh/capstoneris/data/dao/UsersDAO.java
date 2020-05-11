@@ -2,10 +2,11 @@ package de.hsh.capstoneris.data.dao;
 
 import de.hsh.capstoneris.data.sql.Connection;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class UsersDAO extends Connection{
+public class UsersDAO extends Connection {
 
 
     private ArrayList<UserDAO> list = new ArrayList<>();
@@ -22,19 +23,16 @@ public class UsersDAO extends Connection{
             preparedStatement = setupPreparedStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
 
-              UserDAO userDummy = new UserDAO();
+                UserDAO userDummy = new UserDAO();
 
-              userDummy.setUserId(resultSet.getLong("userid"));
-              userDummy.setUserName(resultSet.getString("username"));
+                userDummy.setUserId(resultSet.getLong("userid"));
+                userDummy.setUserName(resultSet.getString("username"));
 
-              if(!list.contains(userDummy)){
-                  list.add(userDummy);
-              }
-
-                //System.out.println(list.toString());
-
+                if (!list.contains(userDummy)) {
+                    list.add(userDummy);
+                }
             }
 
         } catch (Exception e) {
@@ -46,6 +44,7 @@ public class UsersDAO extends Connection{
 
         return list.toString();
     }
+
     public String getUser(long id) {
         String sql = "SELECT css.users.\"name\" AS username FROM css.users WHERE WHERE css.users.id=" + id + ";";
 
@@ -57,7 +56,7 @@ public class UsersDAO extends Connection{
             preparedStatement = setupPreparedStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
 
                 userDummy.setUserId(id);
                 userDummy.setUserName(resultSet.getString("username"));
@@ -71,6 +70,7 @@ public class UsersDAO extends Connection{
         }
         return userDummy.getUserName();
     }
+
     public long getUser(String username) {
         String sql = "SELECT css.users.id AS userid FROM css.users WHERE css.users.name LIKE '" + username + "';";
 
@@ -83,7 +83,7 @@ public class UsersDAO extends Connection{
             resultSet = preparedStatement.executeQuery();
 
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
 
                 userDummy.setUserId(resultSet.getLong("userid"));
                 userDummy.setUserName(username);

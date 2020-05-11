@@ -7,9 +7,10 @@ import de.hsh.capstoneris.data.sql.Connection;
 import de.hsh.capstoneris.socketio.Manager;
 import de.hsh.capstoneris.socketio.SocketMessageTypes;
 import de.hsh.capstoneris.socketio.listeners.*;
-import de.hsh.capstoneris.socketio.messages.client.SendChatMessage;
 import de.hsh.capstoneris.socketio.messages.client.*;
 import de.hsh.capstoneris.util.CORSResponseFilter;
+import de.hsh.capstoneris.util.Logger;
+import de.hsh.capstoneris.util.Service;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -71,7 +72,7 @@ public class Main {
         try {
             stmt = conn.setupPreparedStatement("SELECT * FROM css.users");
             if (stmt.execute()) {
-                System.out.println("Connected to Database");
+                Logger.log(Service.DB, "Database connection test successful!");
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -80,13 +81,13 @@ public class Main {
 
     public static void main(String[] args) {
         final HttpServer server = startServer();
+        Logger.log(Service.REST, "REST Server started!");
         final SocketIOServer socketIOServer = createSocketIOServer();
         socketIOServer.start();
-
-        System.out.println(String.format("CSS-Backend started!\nHit CTRL+C to stop it..."));
-
-
+        Logger.log(Service.SOCKET, "SocketIO Server started!");
         testDBConnection();
+        Logger.log(Service.SYSTEM, "All components started! Hit CTRL+C to stop it...");
+
         try {
             // Warning: Server will automatically shut down in 292.471.208 years!
             Thread.sleep(Long.MAX_VALUE);

@@ -1,7 +1,8 @@
 package de.hsh.capstoneris.socketio;
 
+import de.hsh.capstoneris.rest.json.JsonInputfieldState;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SharedSession {
     private final SocketRoom room;
@@ -11,7 +12,7 @@ public class SharedSession {
     private final ArrayList<User> invitedUsers = new ArrayList<>();
     private final ArrayList<String> chatHistory = new ArrayList<>();
     private boolean alive = true;
-    private HashMap<String, String> inputFieldStates = new HashMap<>();
+    private ArrayList<JsonInputfieldState> inputFieldStates = new ArrayList<>();
     private String inviteMessage;
     private long timeStamp;
 
@@ -57,6 +58,15 @@ public class SharedSession {
         }
     }
 
+    public JsonInputfieldState getInputfieldStateIfExists(String fieldId) {
+        for (JsonInputfieldState state : inputFieldStates) {
+            if (state.fieldId.equals(fieldId)) {
+                return state;
+            }
+        }
+        return null;
+    }
+
     public SocketRoom getRoom() {
         return room;
     }
@@ -81,7 +91,7 @@ public class SharedSession {
         return inviteMessage;
     }
 
-    public HashMap<String, String> getInputFieldStates() {
+    public ArrayList<JsonInputfieldState> getInputFieldStates() {
         return inputFieldStates;
     }
 

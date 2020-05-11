@@ -2,6 +2,8 @@ package de.hsh.capstoneris.rest;
 
 import de.hsh.capstoneris.data.bo.GroupBO;
 import de.hsh.capstoneris.data.bo.UsersBO;
+import de.hsh.capstoneris.util.Logger;
+import de.hsh.capstoneris.util.Service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -26,18 +28,15 @@ public class UsersRESTResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getUsers() {
-        System.out.println("Getting request for Users!");
+        Logger.log(Service.REST, "Getting request for /api/users!");
         return usersBO.getUsers();
     }
 
     @Path("in-my-group")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getUsersInGroup(){
-        System.out.println("Getting request for Users-in-my-Group!");
+    public String getUsersInGroup() {
+        Logger.log(Service.REST, "Getting request for /api/users/in-my-group!");
         return groupBo.getUsersInMyGroups();
     }
-
-
-
 }

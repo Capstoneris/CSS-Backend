@@ -3,7 +3,7 @@ package de.hsh.capstoneris.rest.json;
 public class JsonInputfieldState {
     public String fieldId;
     public String value;
-    public JsonInputfieldState[] selections;
+    public JsonInputfieldSelections[] selections;
 
     public String getFieldId() {
         return fieldId;
@@ -21,18 +21,18 @@ public class JsonInputfieldState {
         this.value = value;
     }
 
-    public JsonInputfieldState[] getSelections() {
+    public JsonInputfieldSelections[] getSelections() {
         return selections;
     }
 
-    public void setSelections(JsonInputfieldState[] selections) {
+    public void setSelections(JsonInputfieldSelections[] selections) {
         this.selections = selections;
     }
 
     public JsonInputfieldState() {
     }
 
-    public JsonInputfieldState(String fieldId, String value, JsonInputfieldState[] selections) {
+    public JsonInputfieldState(String fieldId, String value, JsonInputfieldSelections[] selections) {
         this.fieldId = fieldId;
         this.value = value;
         this.selections = selections;
