@@ -103,6 +103,10 @@ in your terminal to start the database.
     "id": "long",
     "username": "string"
   },
+  "Group": {
+    "id": "long",
+    "title": "string"
+  },
   "Invitation": {
     "host": "User",
     "message": "string",
@@ -114,7 +118,7 @@ in your terminal to start the database.
     "content": "string"
   },
   "InputfieldState": {
-    "fieldID": "string",
+    "fieldId": "string",
     "value": "string",
     "selections": "InputfieldSelections[]"
   },
@@ -135,7 +139,7 @@ in your terminal to start the database.
     },
     "start-session": {
       "message": "string",
-      "groupName": "string",
+      "group": "Group",
       "users": "User[]",
       "timestamp": "long",
       "inputfieldStates": "InputfieldState[]"
@@ -148,7 +152,7 @@ in your terminal to start the database.
       "message": "string"
     },
     "inputfield-interaction": {
-      "fieldID": "string",
+      "fieldId": "string",
       "changed": "boolean",
       "oldValue": "string",
       "newValue": "string",
