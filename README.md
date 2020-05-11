@@ -116,7 +116,12 @@ in your terminal to start the database.
   "InputfieldState": {
     "fieldID": "string",
     "value": "string",
-    "selectedBy": "User[]"
+    "selections": "InputfieldSelections[]"
+  },
+  "InputfieldSelection": {
+    "user": "User",
+    "start": "integer",
+    "end": "integer"
   }
 }
 ```
@@ -174,11 +179,11 @@ in your terminal to start the database.
     "chat-message": {
       "timestamp": "long",
       "sentBy": "User",
-      "messageContent": "string"
+      "message": "string"
     },
     "inputfield-changed": {
       "user": "User",
-      "changed": "InputfieldState",
+      "state": "InputfieldState",
       "selections": "User[]"
     },
     "session-left": {
