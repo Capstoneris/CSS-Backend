@@ -103,7 +103,7 @@ in your terminal to start the database.
     "id": "long",
     "username": "string"
   },
-  "Invite": {
+  "Invitation": {
     "host": "User",
     "message": "string",
     "timestamp": "long"
@@ -111,11 +111,11 @@ in your terminal to start the database.
   "ChatMessage": {
     "timestamp": "long",
     "sentBy": "User",
-    "messageContent": "string"
+    "content": "string"
   },
   "InputfieldState": {
     "fieldID": "string",
-    "state": "string"
+    "value": "string"
   }
 }
 ```
@@ -128,25 +128,26 @@ in your terminal to start the database.
       "token": "string"
     },
     "start-session": {
-      "startMessageContent": "string",
+      "message": "string",
       "groupName": "string",
       "users": "User[]",
-      "timestamp": "long"
+      "timestamp": "long",
+      "state": "InputfieldState[]"
     },
     "join-session": {
       "host": "User"
     },
     "send-chat-message": {
       "timestamp": "long",
-      "messageContent": "string"
+      "message": "string"
     },
     "inputfield-interaction": {
       "fieldID": "string",
       "changed": "boolean",
       "oldValue": "string",
       "newValue": "string",
-      "cursorStart": "integer",
-      "cursorEnd": "integer"
+      "selectionStart": "integer",
+      "selectionEnd": "integer"
     },
     "leave-session": {},
     "kick-member": {
@@ -155,7 +156,10 @@ in your terminal to start the database.
   },
   "server-side": {
     "hello": {
-      "invites": "Invite[]"
+      "invitations": "Invitation[]"
+    },
+    "invitation-list-update": {
+      "invitations": "Invitation[]"
     },
     "session-started": {},
     "session-joined": {
@@ -173,8 +177,7 @@ in your terminal to start the database.
     },
     "inputfield-changed": {
       "user": "User",
-      "fieldID": "string",
-      "value": "string",
+      "changed": "InputfieldState",
       "selections": "User[]"
     },
     "session-left": {
