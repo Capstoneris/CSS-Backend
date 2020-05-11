@@ -184,7 +184,7 @@ in your terminal to start the database.
     "inputfield-changed": {
       "user": "User",
       "state": "InputfieldState",
-      "selections": "User[]"
+      "selections": "InputfieldSelection[]"
     },
     "session-left": {
       "reason": "string"
