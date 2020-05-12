@@ -3,6 +3,7 @@ package de.hsh.capstoneris.rest;
 import de.hsh.capstoneris.rest.json.JsonLoginResponse;
 import de.hsh.capstoneris.rest.json.JsonUser;
 import de.hsh.capstoneris.util.Authenticator;
+import de.hsh.capstoneris.util.ConsoleColors;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 
@@ -27,14 +28,14 @@ public class AuthRESTResource {
             String user = Authenticator.verifyToken(token);
 
             if (user != null) {
-                Logger.log(Service.REST, "Authenticated user: " + user);
+                Logger.log(Service.REST, "Authenticated user: " + user, ConsoleColors.GREEN);
                 return Response.ok().entity(new JsonLoginResponse(new JsonUser(0, user), token)).build();
             } else {
-                Logger.log(Service.REST, "Authentication failed! Could not verify the provided token.");
+                Logger.log(Service.REST, "Authentication failed! Could not verify the provided token.", ConsoleColors.RED);
                 return Response.status(401).build();
             }
         } else {
-            Logger.log(Service.REST, "Authentication failed! Token not found in Header.");
+            Logger.log(Service.REST, "Authentication failed! Token not found in Header.", ConsoleColors.RED);
             return Response.status(401).build();
         }
     }

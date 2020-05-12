@@ -7,6 +7,7 @@ import de.hsh.capstoneris.rest.json.JsonUser;
 import de.hsh.capstoneris.socketio.*;
 import de.hsh.capstoneris.socketio.messages.server.MemberListUpdateMessage;
 import de.hsh.capstoneris.socketio.messages.server.SessionLeftMessage;
+import de.hsh.capstoneris.util.ConsoleColors;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 
@@ -26,7 +27,7 @@ public class SocketDisconnectListener implements DisconnectListener {
     @Override
     public void onDisconnect(SocketIOClient socketIOClient) {
         // IMPORTANT: Clients get removed from rooms before this method is called!!!
-        Logger.log(Service.SOCKET, "Client disconnecting (" + socketIOClient.getSessionId() + ") from " + socketIOClient.getRemoteAddress());
+        Logger.log(Service.SOCKET, "Client disconnecting (" + socketIOClient.getSessionId() + ") from " + socketIOClient.getRemoteAddress(), ConsoleColors.YELLOW);
         Logger.log(Service.SOCKET, "Checking if user was logged in");
         User user = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
 
@@ -55,8 +56,7 @@ public class SocketDisconnectListener implements DisconnectListener {
                     manager.sendInvitationListUpdate(invited, socketIOServer);
                 }
 
-
-                // TODO SAVE SESSION INFORMATION TO THE DATABASE
+                // TODO SAVE SESSION INFORMATION TO THE DATABASE (CHAT HISTORY ETC)
             } else if (user.getState() == State.JOINED) {
                 Logger.log(Service.SOCKET, "User joined a session. Leaving session...");
                 SharedSession currentSession = user.getCurrentSession();
@@ -70,7 +70,7 @@ public class SocketDisconnectListener implements DisconnectListener {
                 socketIOClient.sendEvent(SocketMessageTypes.SESSION_LEFT, new SessionLeftMessage("You disconnected"));
                 socketIOServer.getRoomOperations(currentSession.getRoom().getName()).sendEvent(SocketMessageTypes.MEMBER_LIST_UPDATE, new MemberListUpdateMessage(joinedUsers));
             }
-            Logger.log(Service.SOCKET, "Disconnect complete");
+            Logger.log(Service.SOCKET, "Disconnect complete", ConsoleColors.GREEN);
             user.setSessionID(null);
             user.setState(State.OFFLINE);
 

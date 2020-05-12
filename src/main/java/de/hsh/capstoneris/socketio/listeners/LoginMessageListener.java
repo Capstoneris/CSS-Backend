@@ -12,6 +12,7 @@ import de.hsh.capstoneris.socketio.messages.server.HelloMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.IllegalOperationErrorMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.InvalidInputErrorMessage;
 import de.hsh.capstoneris.util.Authenticator;
+import de.hsh.capstoneris.util.ConsoleColors;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 
@@ -30,7 +31,7 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
 
     @Override
     public void onData(SocketIOClient socketIOClient, LoginMessage loginMessage, AckRequest ackRequest) throws Exception {
-        Logger.log(Service.SOCKET, "Client tries to login");
+        Logger.log(Service.SOCKET, "Client tries to login", ConsoleColors.YELLOW);
         // See if the connected client is already logged in
         User user = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
 
@@ -43,7 +44,7 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
 
             // If the username could be retrieved from the token
             if (username != null) {
-                Logger.log(Service.SOCKET, "Login successful, logged in user " + username);
+                Logger.log(Service.SOCKET, "Login successful, logged in user " + username, ConsoleColors.GREEN);
                 socketIOClient.joinRoom(SocketMessageTypes.LOGGED_IN_ROOM);
 
                 Logger.log(Service.SOCKET, "Checking if user exists in manager");
@@ -62,10 +63,10 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
                     // and disconnect old client
                     Logger.log(Service.SOCKET, "User existing, checking if another connection already exists");
                     if (user.getState() != State.OFFLINE) {
-                        Logger.log(Service.SOCKET, "User already connected. Disconnecting previous session. Connection process complete");
+                        Logger.log(Service.SOCKET, "User already connected. Disconnecting previous session. Connection process complete", ConsoleColors.YELLOW);
                         socketIOServer.getClient(user.getSessionID()).disconnect();
                     } else {
-                        Logger.log(Service.SOCKET, "User was not connected. Connection process complete");
+                        Logger.log(Service.SOCKET, "User was not connected. Connection process complete", ConsoleColors.GREEN);
                     }
 
                     // set the state to IDLE and and the session ID of this socketIOClient
@@ -83,13 +84,13 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
                 Logger.log(Service.SOCKET, "Found " + invites.size() + " invitation(s)");
                 socketIOClient.sendEvent(SocketMessageTypes.HELLO, new HelloMessage(invites));
             } else {
-                Logger.log(Service.SOCKET, "Could not verify the user");
+                Logger.log(Service.SOCKET, "Could not verify the user", ConsoleColors.RED);
                 socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new InvalidInputErrorMessage());
                 socketIOClient.disconnect();
             }
         } else {
             // Already logged in
-            Logger.log(Service.SOCKET, "This session is already logged in!");
+            Logger.log(Service.SOCKET, "This session is already logged in!", ConsoleColors.RED);
             socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
         }
     }

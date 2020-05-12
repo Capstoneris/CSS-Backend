@@ -1,6 +1,7 @@
 package de.hsh.capstoneris.rest;
 
 import de.hsh.capstoneris.util.Authenticator;
+import de.hsh.capstoneris.util.ConsoleColors;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 
@@ -23,14 +24,14 @@ public class LogoutRESTResource {
         if (token != null) {
             String user = Authenticator.verifyToken(token);
             if (user != null) {
-                Logger.log(Service.REST, "Logged out user " + user);
+                Logger.log(Service.REST, "Logged out user " + user, ConsoleColors.GREEN);
                 return Response.ok().build();
             } else {
-                Logger.log(Service.REST, "Logout failed, token was invalid!");
+                Logger.log(Service.REST, "Logout failed, token was invalid!", ConsoleColors.RED);
                 return Response.status(401).build();
             }
         } else {
-            Logger.log(Service.REST, "Logout failed, token not found!");
+            Logger.log(Service.REST, "Logout failed, token not found!", ConsoleColors.RED);
             return Response.status(401).build();
         }
     }

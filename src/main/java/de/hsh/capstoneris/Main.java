@@ -9,6 +9,7 @@ import de.hsh.capstoneris.socketio.SocketMessageTypes;
 import de.hsh.capstoneris.socketio.listeners.*;
 import de.hsh.capstoneris.socketio.messages.client.*;
 import de.hsh.capstoneris.util.CORSResponseFilter;
+import de.hsh.capstoneris.util.ConsoleColors;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -51,6 +52,7 @@ public class Main {
         config.setPort(8082);
 
         final SocketIOServer socketIOServer = new SocketIOServer(config);
+
         final Manager manager = new Manager();
 
         socketIOServer.addConnectListener(new SocketConnectListener());
@@ -72,7 +74,7 @@ public class Main {
         try {
             stmt = conn.setupPreparedStatement("SELECT * FROM css.users");
             if (stmt.execute()) {
-                Logger.log(Service.DB, "Database connection test successful!");
+                Logger.log(Service.DB, "Database connection test successful!", ConsoleColors.GREEN);
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -80,13 +82,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        if (args.length == 1) {
+            Logger.enabled = false;
+        }
         final HttpServer server = startServer();
-        Logger.log(Service.REST, "REST Server started!");
+        Logger.log(Service.REST, "REST Server started!", ConsoleColors.GREEN);
         final SocketIOServer socketIOServer = createSocketIOServer();
         socketIOServer.start();
-        Logger.log(Service.SOCKET, "SocketIO Server started!");
+        Logger.log(Service.SOCKET, "SocketIO Server started!", ConsoleColors.GREEN);
         testDBConnection();
-        Logger.log(Service.SYSTEM, "All components started! Hit CTRL+C to stop it...");
+        Logger.log(Service.SYSTEM, "All components started! Hit CTRL+C to stop it...", ConsoleColors.GREEN);
 
         try {
             // Warning: Server will automatically shut down in 292.471.208 years!

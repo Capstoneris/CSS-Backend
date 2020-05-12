@@ -11,6 +11,7 @@ import de.hsh.capstoneris.socketio.messages.server.MemberListUpdateMessage;
 import de.hsh.capstoneris.socketio.messages.server.SessionJoinedMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.IllegalOperationErrorMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.InvalidInputErrorMessage;
+import de.hsh.capstoneris.util.ConsoleColors;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 
@@ -28,12 +29,12 @@ public class JoinSessionMessageListener implements DataListener<JoinSessionMessa
 
     @Override
     public void onData(SocketIOClient socketIOClient, JoinSessionMessage joinSessionMessage, AckRequest ackRequest) throws Exception {
-        Logger.log(Service.SOCKET, "Client tries to join session hosted by " + joinSessionMessage.host.username);
+        Logger.log(Service.SOCKET, "Client tries to join session hosted by " + joinSessionMessage.host.username, ConsoleColors.YELLOW);
         User guest = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
 
         // Check if user is logged in
         if (guest == null) {
-            Logger.log(Service.SOCKET, "Guest is not logged in. Disconnecting.");
+            Logger.log(Service.SOCKET, "Guest is not logged in. Disconnecting.", ConsoleColors.RED);
             socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
             socketIOClient.disconnect();
             return;
@@ -42,7 +43,7 @@ public class JoinSessionMessageListener implements DataListener<JoinSessionMessa
 
         // Check if user is currently not in a session
         if (guest.getState() != State.IDLE) {
-            Logger.log(Service.SOCKET, "Client is currently in a session and can't join another one.");
+            Logger.log(Service.SOCKET, "Client is currently in a session and can't join another one.", ConsoleColors.RED);
             socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
             return;
         }
@@ -51,7 +52,7 @@ public class JoinSessionMessageListener implements DataListener<JoinSessionMessa
         boolean sessionFound = false;
         for (SharedSession session : manager.getSessions()) {
             if (session.getHost().getUsername().equals(joinSessionMessage.getHost().getUsername()) && session.isAlive() && guest.getInvitedTo().contains(session)) {
-                Logger.log(Service.SOCKET, "Session found. User " + guest.getUsername() + " joining.");
+                Logger.log(Service.SOCKET, "Session found. User " + guest.getUsername() + " joining.", ConsoleColors.GREEN);
                 session.join(guest);
                 guest.setCurrentSession(session);
                 guest.setState(State.JOINED);
@@ -70,13 +71,13 @@ public class JoinSessionMessageListener implements DataListener<JoinSessionMessa
                 Logger.log(Service.SOCKET, "Updating session members. There is/are now " + joinedUsers.size() + " users joined");
                 socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(SocketMessageTypes.MEMBER_LIST_UPDATE, new MemberListUpdateMessage(joinedUsers));
                 sessionFound = true;
-                Logger.log(Service.SOCKET, "Join request completed.");
+                Logger.log(Service.SOCKET, "Join request completed.", ConsoleColors.GREEN);
                 break;
             }
         }
 
         if (!sessionFound) {
-            Logger.log(Service.SOCKET, "Session not found.");
+            Logger.log(Service.SOCKET, "Session not found.", ConsoleColors.RED);
             socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new InvalidInputErrorMessage());
         }
     }
