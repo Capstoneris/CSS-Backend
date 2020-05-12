@@ -43,20 +43,21 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
                 " oldValue: " + inputFieldInteractionMessage.oldValue +
                 " newValue: " + inputFieldInteractionMessage.newValue +
                 " changed: " + inputFieldInteractionMessage.changed);
-        User editor = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
 
-
+        if (!inputFieldInteractionMessage.changed) {
+            Logger.log(Service.SOCKET, "No change detected, returning for now (Selection will be handled soon (tm))");
+            return;
+        }
         User changingUser = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());
         if (changingUser != null) {
             Logger.log(Service.SOCKET, "Working on changing inputfield for " + changingUser.getUsername());
             String fieldId = inputFieldInteractionMessage.fieldId;
             SharedSession session = changingUser.getCurrentSession();
             JsonInputfieldState state = session.getInputfieldStateIfExists(fieldId);
-            boolean changed = (inputFieldInteractionMessage.oldValue == null ^ inputFieldInteractionMessage.newValue == null) || !inputFieldInteractionMessage.oldValue.equals(inputFieldInteractionMessage.newValue);
             if (state == null) {
                 Logger.log(Service.SOCKET, "Inputfield " + fieldId + " not yet existing in the manager, creating...");
                 String newValue = "";
-                if (changed) {
+                if (inputFieldInteractionMessage.changed) {
                     newValue = inputFieldInteractionMessage.newValue;
                 }
                 state = new JsonInputfieldState(fieldId, newValue, null);
@@ -68,7 +69,7 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
                 );
             } else {
                 Logger.log(Service.SOCKET, "Comparing old values (" + state.value + " == " + inputFieldInteractionMessage.getOldValue() + ")");
-                if (changed && inputFieldInteractionMessage.getOldValue().equals(state.value)) {
+                if (inputFieldInteractionMessage.getOldValue().equals(state.value)) {
                     Logger.log(Service.SOCKET, "Change accepted. Setting new value " + inputFieldInteractionMessage.newValue);
                     state.value = inputFieldInteractionMessage.newValue;
                 } else {
