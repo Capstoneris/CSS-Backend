@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 
 public class GroupFactory extends Connection {
 
-
     public GroupDTO getGroupById(long id) {
 
         String sql = "select distinct css.users.id as userId, css.users.name as userName from css.groups join css.users_in_groups on (css.groups.id=css.users_in_groups.group) join css.users on (css.users_in_groups.user=css.users.id) where css.groups.id="+ id +";";
@@ -122,9 +121,7 @@ public class GroupFactory extends Connection {
         return resultId;
     }
 
-
-    // public void saveOrUpdateGroup(GroupDTO group)    // make sure to remove or add new entries in users_in_groups table!
-
+    /*
     public void deleteGroup(GroupDTO group){
         String sql = "delete FROM css.users_in_groups where css.users_in_groups.user="+group.getId()+";";
 
@@ -146,5 +143,5 @@ public class GroupFactory extends Connection {
             closeConnections(resultSet, preparedStatement);
         }
 
-    }
+    }*/
 }

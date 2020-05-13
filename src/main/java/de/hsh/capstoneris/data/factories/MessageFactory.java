@@ -37,7 +37,6 @@ public class MessageFactory extends Connection {
         }
         return resultMessage;
     }
-    // public List<MessageDTO> getMessageBySessionId(long id)   // might be useful when a SessionDTO is created and filled with all its messages
 
     public void saveMessages(ArrayList<MessageDTO> messages) {
         for (MessageDTO message : messages){

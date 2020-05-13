@@ -1,10 +1,14 @@
 package de.hsh.capstoneris.data.factories;
 
+import de.hsh.capstoneris.data.dto.GroupDTO;
 import de.hsh.capstoneris.data.dto.UserDTO;
 import de.hsh.capstoneris.data.sql.Connection;
+import de.hsh.capstoneris.socketio.Group;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class UserFactory extends Connection {
 
@@ -69,12 +73,30 @@ public class UserFactory extends Connection {
         return resultUser;
     }
 
-    // public List<UserDTO> getUsersInGroups(UserDTO user)
+    public ArrayList<GroupDTO> getUsersInMyGroups(UserDTO user) {
+        ArrayList<GroupDTO> allUsersFromMyGroups = new ArrayList<>();
+        GroupFactory groupFactory = new GroupFactory();
+
+        for (Long group : user.getGroups()){
+            allUsersFromMyGroups.add(groupFactory.getGroupById(group));
+        }
+
+        return allUsersFromMyGroups;
+    }
+
+    public ArrayList<GroupDTO> getUsersInGroups(ArrayList<Long> groups) {
+        ArrayList<GroupDTO> allUsersFromAllGroups = new ArrayList<>();
+        GroupFactory groupFactory = new GroupFactory();
+
+        for (Long group : groups){
+            allUsersFromAllGroups.add(groupFactory.getGroupById(group));
+        }
+
+        return allUsersFromAllGroups;
+    }
 
 
-
-    // public void saveOrUpdateUser(UserDTO user)
-
+    /*
     public void deleteUser(UserDTO user){
         String sql = "delete FROM css.users_in_groups where css.users_in_groups.user="+user.getId()+";";
 
@@ -95,7 +117,8 @@ public class UserFactory extends Connection {
         } finally {
             closeConnections(resultSet, preparedStatement);
         }
+        */
 
     }
-    }
+
 

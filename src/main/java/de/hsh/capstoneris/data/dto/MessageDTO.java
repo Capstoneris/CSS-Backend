@@ -1,7 +1,5 @@
 package de.hsh.capstoneris.data.dto;
 
-import java.time.LocalDateTime;
-
 public class MessageDTO {
     private long id = -1;
     private long sent_by;
