@@ -44,7 +44,6 @@ public class UserDTO {
     }
 
     public void removeGroup(Long groupId){
-        //TODO check if this does what is looks like
         this.groups.remove(groupId);
     }
 }
