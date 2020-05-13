@@ -3,9 +3,7 @@ package de.hsh.capstoneris.data.factories;
 import de.hsh.capstoneris.data.dto.GroupDTO;
 import de.hsh.capstoneris.data.dto.UserDTO;
 import de.hsh.capstoneris.data.sql.Connection;
-import de.hsh.capstoneris.socketio.Group;
 
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -93,6 +91,34 @@ public class UserFactory extends Connection {
         }
 
         return allUsersFromAllGroups;
+    }
+
+    public ArrayList<UserDTO> getAllUsers(){
+        String sql = "select id as userid from css.users";
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ArrayList<UserDTO> allUsers = new ArrayList<>();
+        ArrayList<Long> userIds = new ArrayList<>();
+
+
+        try {
+            preparedStatement = setupPreparedStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                userIds.add(resultSet.getLong("userid"));
+            }
+            for (Long id : userIds){
+                allUsers.add(this.getUser(id));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnections(resultSet, preparedStatement);
+        }
+        return allUsers;
     }
 
 
