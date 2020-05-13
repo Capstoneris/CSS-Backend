@@ -63,6 +63,7 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
                 state = new JsonInputfieldState(fieldId, newValue, null);
                 session.getInputFieldStates().add(state);
                 Logger.log(Service.SOCKET, "Sending value of inputfield " + fieldId + " to all users");
+                socketIOClient.leaveRoom(session.getRoom().getName());
                 socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(
                         SocketMessageTypes.INPUTFIELD_CHANGED,
                         new InputfieldChangedMessage(new JsonUser(changingUser), state)
@@ -72,6 +73,7 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
                 if (inputFieldInteractionMessage.getOldValue().equals(state.value)) {
                     Logger.log(Service.SOCKET, "Change accepted. Setting new value " + inputFieldInteractionMessage.newValue);
                     state.value = inputFieldInteractionMessage.newValue;
+                    socketIOClient.leaveRoom(session.getRoom().getName());
                 } else {
                     Logger.log(Service.SOCKET, "Sending old value " + state.value + " to all users.");
                 }
@@ -81,6 +83,7 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
                         new InputfieldChangedMessage(new JsonUser(changingUser), state)
                 );
             }
+            socketIOClient.joinRoom(session.getRoom().getName());
 
         }
 
