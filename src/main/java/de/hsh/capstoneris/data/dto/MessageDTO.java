@@ -6,8 +6,7 @@ public class MessageDTO {
     private long id = -1;
     private long sent_by;
     private long sent_in;
-    //private LocalDateTime time;
-    private String time;
+    private long time;
     private String content;
 
     public long getId() {
@@ -34,20 +33,10 @@ public class MessageDTO {
         this.sent_in = sent_in;
     }
 
-    /*
-    public LocalDateTime getTime() {
+    public long getTime() {
         return time;
     }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-     */
-    public String getTime() {
-        return time;
-    }
-    public void setTime(String time){
+    public void setTime(long time){
         this.time = time;
     }
 

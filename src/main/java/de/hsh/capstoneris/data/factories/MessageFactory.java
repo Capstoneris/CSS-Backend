@@ -5,7 +5,6 @@ import de.hsh.capstoneris.data.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MessageFactory extends Connection {
@@ -26,7 +25,7 @@ public class MessageFactory extends Connection {
                 resultMessage.setId(id);
                 resultMessage.setSent_by(resultSet.getLong("sent_by"));
                 resultMessage.setSent_in(resultSet.getLong("sent_in_session"));
-                resultMessage.setTime(resultSet.getString("time"));
+                resultMessage.setTime(resultSet.getLong("time"));
                 resultMessage.setContent(resultSet.getString("content"));
 
             }
@@ -48,7 +47,7 @@ public class MessageFactory extends Connection {
 
     public void saveMessage(MessageDTO message){
         if(message.getId() == -1){
-        String sql = "insert into css.messages VALUES (default," + message.getSent_by() + ","+message.getSent_in() + ",current_timestamp,'" + message.getContent() + "');";
+        String sql = "insert into css.messages VALUES (default," + message.getSent_by() + ","+message.getSent_in() + ","+message.getTime()+"," + message.getContent() + "');";
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
