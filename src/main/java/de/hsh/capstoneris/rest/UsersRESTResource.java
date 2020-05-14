@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 @Path("users")
 public class UsersRESTResource {
 
-    GroupBO groupBo = new GroupBO();
     UserDTO userDTO = new UserDTO();
 
     /**
@@ -34,9 +33,6 @@ public class UsersRESTResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getUsersInGroup(){
-        return groupBo.getUsersInMyGroups();
+       return userDTO.getAllUsersInMyGroups().toString();
     }
-
-
-
 }

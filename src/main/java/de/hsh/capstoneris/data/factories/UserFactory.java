@@ -71,14 +71,20 @@ public class UserFactory extends Connection {
         return resultUser;
     }
 
-    public ArrayList<GroupDTO> getUsersInMyGroups(UserDTO user) {
-        ArrayList<GroupDTO> allUsersFromMyGroups = new ArrayList<>();
+    public ArrayList<UserDTO> getUsersInMyGroups(long userid) {
+        UserDTO user = this.getUser(userid);
+        ArrayList<UserDTO> allUsersFromMyGroups = new ArrayList<>();
+        GroupDTO dummyGroup;
         GroupFactory groupFactory = new GroupFactory();
 
         for (Long group : user.getGroups()){
-            allUsersFromMyGroups.add(groupFactory.getGroupById(group));
+           dummyGroup = groupFactory.getGroupById(group);
+           for (UserDTO userInThisGroup : dummyGroup.getUsers()){
+               if(!(allUsersFromMyGroups.contains(userInThisGroup))){
+                   allUsersFromMyGroups.add(userInThisGroup);
+               }
+           }
         }
-
         return allUsersFromMyGroups;
     }
 

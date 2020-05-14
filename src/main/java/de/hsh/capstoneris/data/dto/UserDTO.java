@@ -53,5 +53,13 @@ public class UserDTO {
         UserFactory userFactory = new UserFactory();
         return userFactory.getAllUsers();
     }
+
+
+    public ArrayList<UserDTO> getAllUsersInMyGroups(){
+        UserFactory userFactory = new UserFactory();
+        return userFactory.getUsersInMyGroups(this.getId());
+    }
+
+
 }
 
