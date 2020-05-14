@@ -121,27 +121,4 @@ public class GroupFactory extends Connection {
         return resultId;
     }
 
-    /*
-    public void deleteGroup(GroupDTO group){
-        String sql = "delete FROM css.users_in_groups where css.users_in_groups.user="+group.getId()+";";
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = setupPreparedStatement(sql);
-            preparedStatement.executeUpdate();
-
-            sql = "delete from css.users where id="+group.getId()+";";
-            preparedStatement = setupPreparedStatement(sql);
-            preparedStatement.executeUpdate();
-
-
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            closeConnections(resultSet, preparedStatement);
-        }
-
-    }*/
 }

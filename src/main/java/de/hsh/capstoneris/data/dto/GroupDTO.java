@@ -4,9 +4,9 @@ package de.hsh.capstoneris.data.dto;
 import java.util.ArrayList;
 
 public class GroupDTO {
-    long id;
-    String title;
-    ArrayList<UserDTO> users = new ArrayList<>();
+    private long id;
+    private String title;
+    private ArrayList<UserDTO> users = new ArrayList<>();
 
     public long getId() {
         return id;

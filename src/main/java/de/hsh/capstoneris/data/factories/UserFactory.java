@@ -127,30 +127,6 @@ public class UserFactory extends Connection {
         return allUsers;
     }
 
-
-    /*
-    public void deleteUser(UserDTO user){
-        String sql = "delete FROM css.users_in_groups where css.users_in_groups.user="+user.getId()+";";
-
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = setupPreparedStatement(sql);
-            preparedStatement.executeUpdate();
-
-            sql = "delete from css.groups where id="+user.getId()+";";
-            preparedStatement = setupPreparedStatement(sql);
-            preparedStatement.executeUpdate();
-
-
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            closeConnections(resultSet, preparedStatement);
-        }
-        */
-
-    }
+}
 
 
