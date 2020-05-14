@@ -1,6 +1,8 @@
 package de.hsh.capstoneris.data.dto;
 
 
+import de.hsh.capstoneris.data.factories.UserFactory;
+
 import java.util.ArrayList;
 
 public class UserDTO {
@@ -45,6 +47,11 @@ public class UserDTO {
 
     public void removeGroup(Long groupId){
         this.groups.remove(groupId);
+    }
+
+    public ArrayList<UserDTO> getAllUsers() {
+        UserFactory userFactory = new UserFactory();
+        return userFactory.getAllUsers();
     }
 }
 

@@ -83,14 +83,14 @@ public class UserFactory extends Connection {
     }
 
     public ArrayList<GroupDTO> getUsersInGroups(ArrayList<Long> groups) {
-        ArrayList<GroupDTO> allUsersFromAllGroups = new ArrayList<>();
+        ArrayList<GroupDTO> allUsersFromAllMyGroups = new ArrayList<>();
         GroupFactory groupFactory = new GroupFactory();
 
         for (Long group : groups){
-            allUsersFromAllGroups.add(groupFactory.getGroupById(group));
+            allUsersFromAllMyGroups.add(groupFactory.getGroupById(group));
         }
 
-        return allUsersFromAllGroups;
+        return allUsersFromAllMyGroups;
     }
 
     public ArrayList<UserDTO> getAllUsers(){
