@@ -1,0 +1,31 @@
+config:
+  target: 'http://185.251.100.50:8082'
+  phases:
+    - duration: 5
+      arrivalCount: 1
+scenarios:
+  - engine: 'socketio'
+    flow:
+      - post:
+          url: 'http://185.251.100.50:8081/api/auth/login'
+          json:
+            username: "Amir"
+            password: "asdf"
+          capture:
+            json: "$.token"
+            as: "token"
+      - emit:
+          channel: "login"
+          data: {"token": "{{token}}"}
+          response:
+            channel: "hello"
+      - emit:
+          channel: "start-session"
+          data: {"group": {"title": "Walmart"},"users": [{"id": "3", "username": "Simon"}],"startMessageContent": "komm in die gruppe!"}
+          response:
+            channel: "session-started"
+      - loop:
+          - emit:
+              channel: "inputfield-interaction"
+              data: {["inputfield-interaction",{"fieldId":"favouriteCity","changed":true,"oldValue":"lel","newValue":"lel","selectionStart":14,"selectionEnd":20}]}
+        count: 1000000

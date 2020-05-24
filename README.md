@@ -76,7 +76,7 @@ in your terminal to start the database.
 ```
 * Responses
   * Successful:
-    * If user exists a JWT is generated and set as cookie (name `css-jwt`) and status 200 is returned
+    * If user exists a JWT is generated (name `token`) and status 200 is returned
   * Unsuccessful:
     * If user does not exist, Status 401 is returned
     * If something goes wrong in the process (SQL or JWT problems), Status 500 is returned
@@ -94,7 +94,108 @@ in your terminal to start the database.
 * Responses
     * Status 200 is returned when logout successful
     * Status 401 is returned when logout not successful (for example when already logged out)
-    
+
+## Websocket Protocol
+### Used objects
+```json
+{
+  "User": {
+    "id": "long",
+    "username": "string"
+  },
+  "Group": {
+    "id": "long",
+    "title": "string"
+  },
+  "Invitation": {
+    "host": "User",
+    "message": "string",
+    "timestamp": "long"
+  },
+  "ChatMessage": {
+    "timestamp": "long",
+    "sentBy": "User",
+    "message": "string"
+  },
+  "InputfieldState": {
+    "fieldId": "string",
+    "value": "string",
+    "selections": "InputfieldSelections[]"
+  },
+  "InputfieldSelection": {
+    "user": "User",
+    "start": "integer",
+    "end": "integer"
+  }
+}
+```
+
+### Messages
+```json
+{
+  "client-side": {
+    "login": {
+      "token": "string"
+    },
+    "start-session": {
+      "message": "string",
+      "group": "Group",
+      "users": "User[]",
+      "timestamp": "long",
+      "inputfieldStates": "InputfieldState[]"
+    },
+    "join-session": {
+      "host": "User"
+    },
+    "send-chat-message": {
+      "message": "ChatMessage"
+    },
+    "inputfield-interaction": {
+      "fieldId": "string",
+      "changed": "boolean",
+      "oldValue": "string",
+      "newValue": "string",
+      "selectionStart": "integer",
+      "selectionEnd": "integer"
+    },
+    "leave-session": {},
+    "kick-member": {
+      "member": "User"
+    }
+  },
+  "server-side": {
+    "hello": {
+      "invitations": "Invitation[]"
+    },
+    "invitation-list-update": {
+      "invitations": "Invitation[]"
+    },
+    "session-started": {},
+    "session-joined": {
+      "host": "User",
+      "state": "InputfieldState[]",
+      "chatHistory": "ChatMessage[]"
+    },
+    "member-list-update": {
+      "users": "User[]"
+    },
+    "chat-message": {
+      "message": "ChatMessage"
+    },
+    "inputfield-changed": {
+      "user": "User",
+      "state": "InputfieldState"
+    },
+    "session-left": {
+      "reason": "string"
+    },
+    "error": {
+      "status": "integer",
+      "message": "string"
+    }
+  }
+}
+```    
     
 
 ## Recommended Technology Stack

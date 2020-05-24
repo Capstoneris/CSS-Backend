@@ -2,28 +2,31 @@ package de.hsh.capstoneris.socketio.messages.client;
 
 public class InputFieldInteractionMessage implements ClientMessage {
 
-    public int fieldID;
+    public String fieldId;
     public boolean changed;
     public String oldValue;
     public String newValue;
-    public int cursorStart; // normal cursor pos & text selection start pos
-    public int cursorEnd; //text selection end pos
+    public int selectionStart; // normal cursor pos & text selection start pos
+    public int selectionEnd; //text selection end pos
 
-    public InputFieldInteractionMessage(int fieldID, boolean changed, String oldValue, String newValue, int cursorStart, int cursorEnd) {
-        this.fieldID = fieldID;
+    public InputFieldInteractionMessage(String fieldId, boolean changed, String oldValue, String newValue, int selectionStart, int selectionEnd) {
+        this.fieldId = fieldId;
         this.changed = changed;
         this.oldValue = oldValue;
         this.newValue = newValue;
-        this.cursorStart = cursorStart;
-        this.cursorEnd = cursorEnd;
+        this.selectionStart = selectionStart;
+        this.selectionEnd = selectionEnd;
     }
 
-    public int getFieldID() {
-        return fieldID;
+    public InputFieldInteractionMessage() {
     }
 
-    public void setFieldID(int fieldID) {
-        this.fieldID = fieldID;
+    public String getFieldId() {
+        return fieldId;
+    }
+
+    public void setFieldId(String fieldId) {
+        this.fieldId = fieldId;
     }
 
     public boolean isChanged() {
@@ -50,32 +53,21 @@ public class InputFieldInteractionMessage implements ClientMessage {
         this.newValue = newValue;
     }
 
-    public int getCursorStart() {
-        return cursorStart;
+    public int getSelectionStart() {
+        return selectionStart;
     }
 
-    public void setCursorStart(int cursorStart) {
-        this.cursorStart = cursorStart;
+    public void setSelectionStart(int selectionStart) {
+        this.selectionStart = selectionStart;
     }
 
-    public int getCursorEnd() {
-        return cursorEnd;
+    public int getSelectionEnd() {
+        return selectionEnd;
     }
 
-    public void setCursorEnd(int cursorEnd) {
-        this.cursorEnd = cursorEnd;
+    public void setSelectionEnd(int selectionEnd) {
+        this.selectionEnd = selectionEnd;
     }
 
-    /*TODO inputfield-interaction
 
-      (Wird nur bei neu fokussierten/geänderten Feldern geschickt. Nicht für das “verlassen” des vorherigen Feldes)
-    Feld-ID
-    Geändert?
-    Wenn ja: Vorheriger Wert, neuer Wert
-    Informationen über Selektion (bei Textfeldern auch Cursorposition und Selektierter Bereich)
-    → Server prüft, ob vorheriger Wert mit wirklichem Wert übereinstimmt
-    → Falls akzeptiert: Server aktualisiert internen Zustand des Feldes
-    → Falls akzeptiert: Server entfernt von allen anderen Feldern, die von diesem Mitglied fokussiert sind, den Fokus und schickt dann ggf. Ein inputfield-changed für diese Felder an alle Mitglieder
-    → Server schickt IMMER ein inputfield-changed für das geänderte Feld an alle Mitglieder, auch wenn die Änderung nicht akzeptiert wurde, damit alle auf dem aktuellen Stand sind
-    */
 }

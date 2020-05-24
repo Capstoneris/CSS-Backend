@@ -7,9 +7,11 @@ import de.hsh.capstoneris.data.sql.Connection;
 import de.hsh.capstoneris.socketio.Manager;
 import de.hsh.capstoneris.socketio.SocketMessageTypes;
 import de.hsh.capstoneris.socketio.listeners.*;
-import de.hsh.capstoneris.socketio.messages.ChatMessage;
 import de.hsh.capstoneris.socketio.messages.client.*;
 import de.hsh.capstoneris.util.CORSResponseFilter;
+import de.hsh.capstoneris.util.ConsoleColors;
+import de.hsh.capstoneris.util.Logger;
+import de.hsh.capstoneris.util.Service;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -50,13 +52,14 @@ public class Main {
         config.setPort(8082);
 
         final SocketIOServer socketIOServer = new SocketIOServer(config);
+
         final Manager manager = new Manager();
 
         socketIOServer.addConnectListener(new SocketConnectListener());
         socketIOServer.addDisconnectListener(new SocketDisconnectListener(manager, socketIOServer));
 
-        socketIOServer.addEventListener(SocketMessageTypes.CLIENT_CHAT_MESSAGE, ChatMessage.class, new ChatMessageListener(manager));
-        socketIOServer.addEventListener(SocketMessageTypes.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener(manager));
+        socketIOServer.addEventListener(SocketMessageTypes.CLIENT_CHAT_MESSAGE, SendChatMessage.class, new SendChatMessageListener(manager, socketIOServer));
+        socketIOServer.addEventListener(SocketMessageTypes.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());
         socketIOServer.addEventListener(SocketMessageTypes.LOGIN, LoginMessage.class, new LoginMessageListener(manager, socketIOServer));
@@ -71,7 +74,7 @@ public class Main {
         try {
             stmt = conn.setupPreparedStatement("SELECT * FROM css.users");
             if (stmt.execute()) {
-                System.out.println("Connected to Database");
+                Logger.log(Service.DB, "Database connection test successful!", ConsoleColors.GREEN);
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -79,14 +82,17 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        if (args.length == 1) {
+            Logger.enabled = false;
+        }
         final HttpServer server = startServer();
+        Logger.log(Service.REST, "REST Server started!", ConsoleColors.GREEN);
         final SocketIOServer socketIOServer = createSocketIOServer();
         socketIOServer.start();
-
-        System.out.println(String.format("CSS-Backend started!\nHit CTRL+C to stop it...", BASE_URI));
-
-
+        Logger.log(Service.SOCKET, "SocketIO Server started!", ConsoleColors.GREEN);
         testDBConnection();
+        Logger.log(Service.SYSTEM, "All components started! Hit CTRL+C to stop it...", ConsoleColors.GREEN);
+
         try {
             // Warning: Server will automatically shut down in 292.471.208 years!
             Thread.sleep(Long.MAX_VALUE);

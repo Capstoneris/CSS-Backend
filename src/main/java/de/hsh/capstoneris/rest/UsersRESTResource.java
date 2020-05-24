@@ -1,8 +1,8 @@
 package de.hsh.capstoneris.rest;
 
+
 import de.hsh.capstoneris.data.dto.UserDTO;
-import de.hsh.capstoneris.data.legacy.bo.GroupBO;
-import de.hsh.capstoneris.data.legacy.bo.UsersBO;
+
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -26,13 +26,16 @@ public class UsersRESTResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getUsers() {
+
         return userDTO.getAllUsers().toString();
+
     }
 
     @Path("in-my-group")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getUsersInGroup(){
-       return userDTO.getAllUsersInMyGroups().toString();
+    public String getUsersInGroup() {
+        return userDTO.getAllUsersInMyGroups().toString();
+
     }
 }

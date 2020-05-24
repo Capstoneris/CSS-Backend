@@ -1,22 +1,18 @@
 package de.hsh.capstoneris.socketio.messages.client;
 
+import de.hsh.capstoneris.rest.json.JsonUser;
+
 public class KickMemberMessage implements ClientMessage {
-    public String username;
+    public JsonUser member;
 
     public KickMemberMessage() {
     }
 
-    public String getUsername() {
-        return username;
+    public JsonUser getMember() {
+        return member;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMember(JsonUser member) {
+        this.member = member;
     }
-    /* TODO kick-member
-    → Server entfernt von allen anderen Feldern, die von diesem Mitglied fokussiert sind, den Fokus und schickt dann ggf. Ein inputfield-changed für diese Felder an alle Mitglieder (außer dieses)
-    → Server setzt Nutzerzustand zurück
-    → Server sendet session-leaved an Mitglied
-    → Server sendet member-list-update an alle Mitglieder (auch den Host)
-            */
 }

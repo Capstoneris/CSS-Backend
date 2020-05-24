@@ -1,45 +1,30 @@
 package de.hsh.capstoneris.socketio.messages.server;
 
+import de.hsh.capstoneris.rest.json.JsonInputfieldState;
+import de.hsh.capstoneris.rest.json.JsonUser;
+
 public class InputfieldChangedMessage implements ServerMessage {
-    public String name;
-    public int fieldID;
-    public int currentValue;
+    public JsonUser user;
+    public JsonInputfieldState state;
 
-    public InputfieldChangedMessage(String name, int fieldID, int currentValue) {
-        this.name = name;
-        this.fieldID = fieldID;
-        this.currentValue = currentValue;
+    public JsonUser getUser() {
+        return user;
     }
 
-    public String getName() {
-        return name;
+    public void setUser(JsonUser user) {
+        this.user = user;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public JsonInputfieldState getState() {
+        return state;
     }
 
-    public int getFieldID() {
-        return fieldID;
+    public void setState(JsonInputfieldState state) {
+        this.state = state;
     }
 
-    public void setFieldID(int fieldID) {
-        this.fieldID = fieldID;
+    public InputfieldChangedMessage(JsonUser user, JsonInputfieldState state) {
+        this.user = user;
+        this.state = state;
     }
-
-    public int getCurrentValue() {
-        return currentValue;
-    }
-
-    public void setCurrentValue(int currentValue) {
-        this.currentValue = currentValue;
-    }
-    /*TODO inputfield-changed
-    Name des Mitglieds das die Änderung ausgelöst hat
-    Feld-ID
-    Aktueller Wert
-    Alle Selektionen dieses Feldes
-    → Client überschreibt Wert des Feldes
-    → Client zeigt Selektionen an
-    */
 }

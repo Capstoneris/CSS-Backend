@@ -1,5 +1,11 @@
 package de.hsh.capstoneris.socketio;
 
+import de.hsh.capstoneris.data.dto.MessageDTO;
+import de.hsh.capstoneris.data.factories.MessageFactory;
+import de.hsh.capstoneris.rest.json.JsonChatMessage;
+import de.hsh.capstoneris.rest.json.JsonInputfieldState;
+import de.hsh.capstoneris.rest.json.JsonUser;
+
 import java.util.ArrayList;
 
 public class SharedSession {
@@ -8,14 +14,23 @@ public class SharedSession {
     private final Group group;
     private final ArrayList<User> joinedUsers = new ArrayList<>();
     private final ArrayList<User> invitedUsers = new ArrayList<>();
-    private final ArrayList<String> chatHistory = new ArrayList<>();
+    private final ArrayList<JsonChatMessage> chatHistory = new ArrayList<JsonChatMessage>();
     private boolean alive = true;
+    private ArrayList<JsonInputfieldState> inputFieldStates = new ArrayList<>();
+    private String inviteMessage;
+    private long timeStamp;
 
-    public SharedSession(SocketRoom room, User host, Group group) {
+    public SharedSession(SocketRoom room, User host, Group group, String inviteMessage, long timeStamp) {
         this.room = room;
         this.host = host;
         this.group = group;
+        this.inviteMessage = inviteMessage;
+        this.timeStamp = timeStamp;
         joinedUsers.add(this.host);
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
     public void invite(User user) {
@@ -47,6 +62,28 @@ public class SharedSession {
         }
     }
 
+    public JsonInputfieldState getInputfieldStateIfExists(String fieldId) {
+        for (JsonInputfieldState state : inputFieldStates) {
+            if (state.fieldId.equals(fieldId)) {
+                return state;
+            }
+        }
+        return null;
+    }
+
+    public void saveChatHistory() {
+        ArrayList<MessageDTO> messageDtos = new ArrayList<MessageDTO>();
+        for (JsonChatMessage msg : chatHistory) {
+            MessageDTO messageDTO = new MessageDTO();
+            messageDTO.setSent_by(msg.getSentBy().getId());
+            messageDTO.setContent(msg.getMessage());
+            messageDTO.setTime(msg.getTimestamp());
+            messageDTO.setSent_in(0); //Zero for now
+            messageDtos.add(messageDTO);
+        }
+        new MessageFactory().saveMessages(messageDtos);
+    }
+
     public SocketRoom getRoom() {
         return room;
     }
@@ -63,8 +100,16 @@ public class SharedSession {
         return joinedUsers;
     }
 
-    public ArrayList<String> getChatHistory() {
+    public ArrayList<JsonChatMessage> getChatHistory() {
         return chatHistory;
+    }
+
+    public String getInviteMessage() {
+        return inviteMessage;
+    }
+
+    public ArrayList<JsonInputfieldState> getInputFieldStates() {
+        return inputFieldStates;
     }
 
     public Group getGroup() {

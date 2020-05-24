@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class MessageFactory extends Connection {
     public MessageDTO getMessageById(long id) {
 
-        String sql = "select * from css.messages where id="+ id +";";
+        String sql = "select * from css.messages where id=" + id + ";";
 
         MessageDTO resultMessage = new MessageDTO();
         PreparedStatement preparedStatement = null;
@@ -20,7 +20,7 @@ public class MessageFactory extends Connection {
             preparedStatement = setupPreparedStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
 
                 resultMessage.setId(id);
                 resultMessage.setSent_by(resultSet.getLong("sent_by"));
@@ -39,28 +39,28 @@ public class MessageFactory extends Connection {
     }
 
     public void saveMessages(ArrayList<MessageDTO> messages) {
-        for (MessageDTO message : messages){
+        for (MessageDTO message : messages) {
             saveMessage(message);
         }
     }
 
-    public void saveMessage(MessageDTO message){
-        if(message.getId() == -1){
-        String sql = "insert into css.messages VALUES (default," + message.getSent_by() + ","+message.getSent_in() + ","+message.getTime()+"," + message.getContent() + "');";
+    public void saveMessage(MessageDTO message) {
+        if (message.getId() == -1) {
+            String sql = "insert into css.messages VALUES (default," + message.getSent_by() + "," + message.getSent_in() + "," + message.getTime() + "," + message.getContent() + "');";
 
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+            PreparedStatement preparedStatement = null;
+            ResultSet resultSet = null;
 
-        try {
-            preparedStatement = setupPreparedStatement(sql);
-            preparedStatement.executeUpdate();
+            try {
+                preparedStatement = setupPreparedStatement(sql);
+                preparedStatement.executeUpdate();
 
 
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            closeConnections(resultSet, preparedStatement);
-        }
+            } catch (Exception e) {
+                System.out.println(e);
+            } finally {
+                closeConnections(resultSet, preparedStatement);
+            }
         }
     }
 }
