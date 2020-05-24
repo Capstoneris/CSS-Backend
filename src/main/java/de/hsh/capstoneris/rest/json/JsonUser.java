@@ -1,6 +1,8 @@
 package de.hsh.capstoneris.rest.json;
 
-import de.hsh.capstoneris.data.dao.UsersDAO;
+
+import de.hsh.capstoneris.data.dto.UserDTO;
+import de.hsh.capstoneris.data.factories.UserFactory;
 import de.hsh.capstoneris.socketio.User;
 
 import javax.json.bind.annotation.JsonbProperty;
@@ -33,9 +35,9 @@ public class JsonUser {
     }
 
     public JsonUser(User user) {
-        UsersDAO usersDAO = new UsersDAO();
+        UserDTO userDTO = (new UserFactory()).getUserByName(user.getUsername());
 
-        this.id = usersDAO.getUser(user.getUsername());
+        this.id = userDTO.getId();
         this.username = user.getUsername();
     }
 

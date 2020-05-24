@@ -1,9 +1,8 @@
 package de.hsh.capstoneris.rest;
 
-import de.hsh.capstoneris.data.bo.GroupBO;
-import de.hsh.capstoneris.data.bo.UsersBO;
-import de.hsh.capstoneris.util.Logger;
-import de.hsh.capstoneris.util.Service;
+
+import de.hsh.capstoneris.data.dto.UserDTO;
+
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -16,27 +15,27 @@ import javax.ws.rs.core.MediaType;
 @Path("users")
 public class UsersRESTResource {
 
-    UsersBO usersBO = new UsersBO();
-    GroupBO groupBo = new GroupBO();
+    UserDTO userDTO = new UserDTO();
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
+     * to the client as "JSON" media type.
      *
-     * @return String that will be returned as a text/plain response.
+     * @return String that will be returned as a JSON response.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getUsers() {
-        Logger.log(Service.REST, "Getting request for /api/users!");
-        return usersBO.getUsers();
+
+        return userDTO.getAllUsers().toString();
+
     }
 
     @Path("in-my-group")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getUsersInGroup() {
-        Logger.log(Service.REST, "Getting request for /api/users/in-my-group!");
-        return groupBo.getUsersInMyGroups();
+        return userDTO.getAllUsersInMyGroups().toString();
+
     }
 }

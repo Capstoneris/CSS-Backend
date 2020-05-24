@@ -1,26 +1,11 @@
-package de.hsh.capstoneris.data.dao;
+package de.hsh.capstoneris.data.dto;
 
-import de.hsh.capstoneris.data.sql.Connection;
-
-public class MessageDAO extends Connection{
-
-
-    private long id;
+public class MessageDTO {
+    private long id = -1;
     private long sent_by;
     private long sent_in;
-    private String time;
+    private long time;
     private String content;
-
-    public MessageDAO(long id, long sent_by, long sent_in, String content, String time) {
-        this.id = id;
-        this.sent_by = sent_by;
-        this.sent_in = sent_in;
-        this.content = content;
-        this.time = time;
-    }
-
-    public MessageDAO() {
-    }
 
     public long getId() {
         return id;
@@ -46,19 +31,18 @@ public class MessageDAO extends Connection{
         this.sent_in = sent_in;
     }
 
+    public long getTime() {
+        return time;
+    }
+    public void setTime(long time){
+        this.time = time;
+    }
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 }
