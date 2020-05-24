@@ -61,7 +61,7 @@ public class Main {
         socketIOServer.addEventListener(SocketMessageTypes.CLIENT_CHAT_MESSAGE, SendChatMessage.class, new SendChatMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.INPUTFIELD_INTERACTION, InputFieldInteractionMessage.class, new InputFieldInteractionMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.KICK_MEMBER, KickMemberMessage.class, new KickMemberMessageListener(manager, socketIOServer));
-        socketIOServer.addEventListener(SocketMessageTypes.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener());
+        socketIOServer.addEventListener(SocketMessageTypes.LEAVE_SESSION, LeaveSessionMessage.class, new LeaveSessionMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.LOGIN, LoginMessage.class, new LoginMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.START_SESSION, StartSessionMessage.class, new StartSessionMessageListener(manager, socketIOServer));
         socketIOServer.addEventListener(SocketMessageTypes.JOIN_SESSION, JoinSessionMessage.class, new JoinSessionMessageListener(manager, socketIOServer));
