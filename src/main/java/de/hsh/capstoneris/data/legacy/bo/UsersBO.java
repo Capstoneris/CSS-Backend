@@ -1,6 +1,6 @@
-package de.hsh.capstoneris.data.bo;
+package de.hsh.capstoneris.data.legacy.bo;
 
-import de.hsh.capstoneris.data.dao.UsersDAO;
+import de.hsh.capstoneris.data.legacy.dao.UsersDAO;
 
 public class UsersBO {
 

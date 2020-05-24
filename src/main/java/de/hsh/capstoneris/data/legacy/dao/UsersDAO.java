@@ -1,4 +1,4 @@
-package de.hsh.capstoneris.data.dao;
+package de.hsh.capstoneris.data.legacy.dao;
 
 import de.hsh.capstoneris.data.sql.Connection;
 
@@ -33,8 +33,6 @@ public class UsersDAO extends Connection{
                   list.add(userDummy);
               }
 
-                //System.out.println(list.toString());
-
             }
 
         } catch (Exception e) {
@@ -42,7 +40,6 @@ public class UsersDAO extends Connection{
         } finally {
             closeConnections(resultSet, preparedStatement);
         }
-        //return null;
 
         return list.toString();
     }

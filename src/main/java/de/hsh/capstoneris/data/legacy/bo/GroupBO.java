@@ -1,5 +1,5 @@
-package de.hsh.capstoneris.data.bo;
-import de.hsh.capstoneris.data.dao.GroupDAO;
+package de.hsh.capstoneris.data.legacy.bo;
+import de.hsh.capstoneris.data.legacy.dao.GroupDAO;
 
 public class GroupBO {
 

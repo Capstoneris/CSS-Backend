@@ -1,4 +1,4 @@
-package de.hsh.capstoneris.data.dao;
+package de.hsh.capstoneris.data.legacy.dao;
 
 import de.hsh.capstoneris.data.sql.Connection;
 
