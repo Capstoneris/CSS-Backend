@@ -9,6 +9,7 @@ import de.hsh.capstoneris.data.sql.Connection;
 import de.hsh.capstoneris.rest.json.JsonUser;
 import de.hsh.capstoneris.socketio.*;
 import de.hsh.capstoneris.socketio.messages.client.StartSessionMessage;
+import de.hsh.capstoneris.socketio.messages.server.MemberListUpdateMessage;
 import de.hsh.capstoneris.socketio.messages.server.SessionStartedMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.IllegalOperationErrorMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.InvalidInputErrorMessage;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StartSessionMessageListener implements DataListener<StartSessionMessage> {
 
@@ -43,7 +45,6 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
             socketIOClient.disconnect();
             return;
         }
-
 
         // Check if user is currently not in a session
         if (host.getState() != State.IDLE) {
@@ -86,6 +87,11 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
         for (JsonUser jsonUser : startSessionMessage.getUsers()) {
             Logger.log(Service.SOCKET, "Inviting user " + jsonUser.username + ". Checking if already exists in manager");
             User user = manager.getUserByNameIfExist(jsonUser.getUsername());
+            if (user == host) {
+                // user should not invite himself/herself
+                socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
+                continue;
+            }
             if (user == null) {
                 Logger.log(Service.SOCKET, "User not existing yet. Creating...");
                 user = new User(jsonUser.getUsername());
@@ -100,6 +106,9 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
         host.setCurrentSession(session);
         host.setState(State.HOSTING);
         socketIOClient.sendEvent(SocketMessageTypes.SESSION_STARTED, new SessionStartedMessage());
+        ArrayList<JsonUser> memberList = new ArrayList<>();
+        memberList.add(new JsonUser(host));
+        socketIOClient.sendEvent(SocketMessageTypes.MEMBER_LIST_UPDATE, new MemberListUpdateMessage(memberList));
         socketIOClient.joinRoom(session.getRoom().getName());
 
         Logger.log(Service.SOCKET, "Trying to invite currently connected users");
