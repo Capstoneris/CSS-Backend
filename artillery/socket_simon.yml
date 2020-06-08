@@ -1,13 +1,13 @@
 config:
-  target: 'http://185.251.100.50:8082'
+  target: "http://185.251.100.50:8082"
   phases:
-    - duration: 5
+    - duration: 10
       arrivalCount: 1
 scenarios:
-  - engine: 'socketio'
+  - engine: "socketio"
     flow:
       - post:
-          url: 'http://185.251.100.50:8081/api/auth/login'
+          url: "http://185.251.100.50:8081/api/auth/login"
           json:
             username: "Hubertus"
             password: "asdf"
@@ -16,16 +16,34 @@ scenarios:
             as: "token"
       - emit:
           channel: "login"
-          data: {"token": "{{token}}"}
+          data: { "token": "{{token}}" }
           response:
             channel: "hello"
       - emit:
           channel: "start-session"
-          data: {"group": {"title": "Walmart"},"users": [{"id": "3", "username": "Herbert"}],"startMessageContent": "komm in die gruppe!"}
+          data:
+            {
+              "group": { "title": "Walmart" },
+              "users": [{ "id": "3", "username": "Herbert" }],
+              "startMessageContent": "komm in die gruppe!",
+            }
           response:
             channel: "session-started"
       - loop:
           - emit:
-              channel: "inputfield-interaction"
-              data: {["inputfield-interaction",{"fieldId":"favouriteCity","changed":true,"oldValue":"lel","newValue":"lel","selectionStart":14,"selectionEnd":20}]}
-        count: 1000000
+              channel: "send-chat-message"
+              data:
+                {
+                  [
+                    "send-chat-message",
+                    {
+                      "message":
+                        {
+                          "timestamp": "40",
+                          "sentBy": { "id": "1", "username": "Simon" },
+                          "message": "Hey, wie gehts?",
+                        },
+                    },
+                  ],
+                }
+        count: 1

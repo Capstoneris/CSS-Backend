@@ -29,7 +29,7 @@ public class SendChatMessageListener implements DataListener<SendChatMessage> {
 
     @Override
     public void onData(SocketIOClient socketIOClient, SendChatMessage sendChatMessage, AckRequest ackRequest) throws Exception {
-        Logger.log(Service.SOCKET, "Getting ChatMessage Content: messageContent: " + sendChatMessage.message.toString());
+        Logger.log(Service.SOCKET, "Getting ChatMessage Content: messageContent: " + sendChatMessage.message.getMessage());
         if (!manager.isLoggedInBySessionID(socketIOClient.getSessionId())) {
             socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new NotLoggedInError());
             return;
@@ -39,21 +39,23 @@ public class SendChatMessageListener implements DataListener<SendChatMessage> {
 
             JsonChatMessage message = sendChatMessage.message;
             SharedSession session = user.getCurrentSession();
-            session.getChatHistory().add(message);
+            if (session != null) {
+                session.getChatHistory().add(message);
 
-            //send Messages to clients
-            socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(SocketMessageTypes.SERVER_CHAT_MESSAGE, new SendChatMessage(message));
+                //send Messages to clients
+                socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(SocketMessageTypes.SERVER_CHAT_MESSAGE, new SendChatMessage(message));
 
-            //saving messages to Database
-            MessageDTO messageDTO = new MessageDTO();
-            messageDTO.setSent_by(new JsonUser(user).getId());
-            messageDTO.setContent(message.getMessage());
-            messageDTO.setTime(message.getTimestamp());
-            messageDTO.setSent_in(0); //Zero for now
+                //saving messages to Database
+                MessageDTO messageDTO = new MessageDTO();
+                messageDTO.setSent_by(new JsonUser(user).getId());
+                messageDTO.setContent(message.getMessage());
+                messageDTO.setTime(message.getTimestamp());
+                messageDTO.setSent_in(0); //Zero for now
 
-            new MessageFactory().saveMessage(messageDTO);
-
-
+                new MessageFactory().saveMessage(messageDTO);
+            } else {
+                socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
+            }
         }
     }
 
