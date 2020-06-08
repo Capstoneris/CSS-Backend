@@ -85,13 +85,13 @@ public class LoginMessageListener implements DataListener<LoginMessage> {
                 socketIOClient.sendEvent(SocketMessageTypes.HELLO, new HelloMessage(invites));
             } else {
                 Logger.log(Service.SOCKET, "Could not verify the user", ConsoleColors.RED);
-                socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new InvalidInputErrorMessage());
+                socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new InvalidInputErrorMessage("User could not be verified."));
                 socketIOClient.disconnect();
             }
         } else {
             // Already logged in
             Logger.log(Service.SOCKET, "This session is already logged in!", ConsoleColors.RED);
-            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
+            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage("Already logged in with this session!"));
         }
     }
 }

@@ -13,7 +13,7 @@ import de.hsh.capstoneris.socketio.SharedSession;
 import de.hsh.capstoneris.socketio.SocketMessageTypes;
 import de.hsh.capstoneris.socketio.User;
 import de.hsh.capstoneris.socketio.messages.client.SendChatMessage;
-import de.hsh.capstoneris.socketio.messages.server.error.IllegalOperationErrorMessage;
+import de.hsh.capstoneris.socketio.messages.server.error.NotLoggedInError;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 
@@ -31,7 +31,7 @@ public class SendChatMessageListener implements DataListener<SendChatMessage> {
     public void onData(SocketIOClient socketIOClient, SendChatMessage sendChatMessage, AckRequest ackRequest) throws Exception {
         Logger.log(Service.SOCKET, "Getting ChatMessage Content: messageContent: " + sendChatMessage.message.toString());
         if (!manager.isLoggedInBySessionID(socketIOClient.getSessionId())) {
-            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
+            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new NotLoggedInError());
             return;
         }
         User user = manager.getUserBySessionIdIfExist(socketIOClient.getSessionId());

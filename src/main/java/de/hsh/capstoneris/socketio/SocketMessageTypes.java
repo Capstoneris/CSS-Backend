@@ -24,4 +24,9 @@ public class SocketMessageTypes {
     public static final String START_SESSION = "start-session";
     public static final String JOIN_SESSION = "join-session";
 
+    // Error-Message Strings
+    public static final String NOT_LOGGED_IN = "Login Check failed!";
+    public static final String ALREADY_IN_SESSION = "User already in a session!";
+    public static final String SESSION_NOT_FOUND = "Session not found!";
+
 }

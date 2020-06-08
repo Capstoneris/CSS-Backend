@@ -6,4 +6,8 @@ public class InvalidInputErrorMessage extends ErrorMessage {
     public InvalidInputErrorMessage() {
         super(400, "Invalid Input");
     }
+
+    public InvalidInputErrorMessage(String details) {
+        super(400, "Invalid Input: " + details);
+    }
 }

@@ -10,6 +10,7 @@ import de.hsh.capstoneris.socketio.messages.client.KickMemberMessage;
 import de.hsh.capstoneris.socketio.messages.server.MemberListUpdateMessage;
 import de.hsh.capstoneris.socketio.messages.server.SessionLeftMessage;
 import de.hsh.capstoneris.socketio.messages.server.error.IllegalOperationErrorMessage;
+import de.hsh.capstoneris.socketio.messages.server.error.NotLoggedInError;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 
@@ -32,7 +33,7 @@ public class KickMemberMessageListener implements DataListener<KickMemberMessage
         // Check if user is logged in
         if (host == null) {
             Logger.log(Service.SOCKET, "Requesting user is not logged in. Disconnecting.");
-            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
+            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new NotLoggedInError());
             socketIOClient.disconnect();
             return;
         }
@@ -40,7 +41,7 @@ public class KickMemberMessageListener implements DataListener<KickMemberMessage
         // Check if user is currently hosting a session
         if (host.getState() != State.HOSTING) {
             Logger.log(Service.SOCKET, "Error. Requesting user is not hosting a session");
-            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage());
+            socketIOClient.sendEvent(SocketMessageTypes.ERROR_MESSAGE, new IllegalOperationErrorMessage("User is not host of a session!"));
             return;
         }
 
