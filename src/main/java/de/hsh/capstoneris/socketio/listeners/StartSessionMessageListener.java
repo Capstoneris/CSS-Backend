@@ -1,11 +1,11 @@
 package de.hsh.capstoneris.socketio.listeners;
 
-import com.auth0.jwt.exceptions.JWTCreationException;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
-import de.hsh.capstoneris.data.sql.Connection;
+import de.hsh.capstoneris.data.dto.GroupDTO;
+import de.hsh.capstoneris.data.factories.GroupFactory;
 import de.hsh.capstoneris.rest.json.JsonUser;
 import de.hsh.capstoneris.socketio.*;
 import de.hsh.capstoneris.socketio.messages.client.StartSessionMessage;
@@ -19,10 +19,6 @@ import de.hsh.capstoneris.util.ConsoleColors;
 import de.hsh.capstoneris.util.Logger;
 import de.hsh.capstoneris.util.Service;
 
-import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StartSessionMessageListener implements DataListener<StartSessionMessage> {
@@ -55,23 +51,11 @@ public class StartSessionMessageListener implements DataListener<StartSessionMes
             return;
         }
 
+        GroupFactory groupFac = new GroupFactory();
+        GroupDTO groupDTO = groupFac.getGroupByTitle(startSessionMessage.getGroup().getTitle());
         Group group = null;
-        // Get group from Database (message only gives group id/name?) attach to Session object
-        try {
-            Connection conn = new Connection();
-
-            PreparedStatement stmt = conn.setupPreparedStatement("select id, title from css.groups g where g.title=?");
-
-            stmt.setString(1, startSessionMessage.group.title);
-            stmt.execute();
-            ResultSet result = stmt.getResultSet();
-            if (result.next()) {
-                group = new Group(result.getString("title"), result.getInt("id"));
-            }
-            conn.closeConnections(result, stmt);
-
-        } catch (SQLException | IOException | JWTCreationException e) {
-            e.printStackTrace();
+        if (groupDTO != null) {
+            group = new Group(groupDTO.getTitle(), (int) groupDTO.getId());
         }
 
         if (group == null) {

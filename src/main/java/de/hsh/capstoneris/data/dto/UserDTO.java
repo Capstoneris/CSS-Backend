@@ -45,7 +45,7 @@ public class UserDTO {
         this.groups.add(groupId);
     }
 
-    public void removeGroup(Long groupId){
+    public void removeGroup(Long groupId) {
         this.groups.remove(groupId);
     }
 
@@ -55,9 +55,18 @@ public class UserDTO {
     }
 
 
-    public ArrayList<UserDTO> getAllUsersInMyGroups(){
+    public ArrayList<UserDTO> getAllUsersInMyGroups() {
         UserFactory userFactory = new UserFactory();
-        return userFactory.getUsersInMyGroups(this.getId());
+        return userFactory.getUsersInMyGroups(this);
+    }
+
+    public String toString() {
+        return "{\"id\": \"" + this.id + "\",\"name\":\"" + this.name + "\"}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.toString().equals(o.toString());
     }
 
 

@@ -25,9 +25,9 @@ public class UserFactory extends Connection {
             resultUser.setId(id);
             resultUser.setName(resultSet.getString("username"));
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
 
-                if(!(resultUser.getGroups().contains(resultSet.getLong("usergroup")))) {
+                if (!(resultUser.getGroups().contains(resultSet.getLong("usergroup")))) {
                     resultUser.getGroups().add(resultSet.getLong("usergroup"));
                 }
 
@@ -40,8 +40,9 @@ public class UserFactory extends Connection {
         }
         return resultUser;
     }
-    public UserDTO getUserByName(String name){
-        String sql = "SELECT css.users.id as userid, css.users_in_groups.group as usergroup FROM css.users join css.users_in_groups on (css.users.id=css.users_in_groups.user) WHERE css.users.name like '"+name+"';";
+
+    public UserDTO getUserByName(String name) {
+        String sql = "SELECT css.users.id as userid, css.users_in_groups.group as usergroup FROM css.users join css.users_in_groups on (css.users.id=css.users_in_groups.user) WHERE css.users.name like '" + name + "';";
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -52,38 +53,36 @@ public class UserFactory extends Connection {
             preparedStatement = setupPreparedStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
-            resultUser.setId(resultSet.getLong("userid"));
-            resultUser.setName(name);
 
-            while(resultSet.next()) {
-
-                if(!(resultUser.getGroups().contains(resultSet.getLong("usergroup")))) {
+            while (resultSet.next()) {
+                resultUser.setId(resultSet.getLong("userid"));
+                resultUser.setName(name);
+                if (!(resultUser.getGroups().contains(resultSet.getLong("usergroup")))) {
                     resultUser.getGroups().add(resultSet.getLong("usergroup"));
                 }
 
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         } finally {
             closeConnections(resultSet, preparedStatement);
         }
         return resultUser;
     }
 
-    public ArrayList<UserDTO> getUsersInMyGroups(long userid) {
-        UserDTO user = this.getUser(userid);
+    public ArrayList<UserDTO> getUsersInMyGroups(UserDTO user) {
         ArrayList<UserDTO> allUsersFromMyGroups = new ArrayList<>();
         GroupDTO dummyGroup;
         GroupFactory groupFactory = new GroupFactory();
 
-        for (Long group : user.getGroups()){
-           dummyGroup = groupFactory.getGroupById(group);
-           for (UserDTO userInThisGroup : dummyGroup.getUsers()){
-               if(!(allUsersFromMyGroups.contains(userInThisGroup))){
-                   allUsersFromMyGroups.add(userInThisGroup);
-               }
-           }
+        for (Long group : user.getGroups()) {
+            dummyGroup = groupFactory.getGroupById(group);
+            for (UserDTO userInThisGroup : dummyGroup.getUsers()) {
+                if (!(allUsersFromMyGroups.contains(userInThisGroup))) {
+                    allUsersFromMyGroups.add(userInThisGroup);
+                }
+            }
         }
         return allUsersFromMyGroups;
     }
@@ -92,15 +91,15 @@ public class UserFactory extends Connection {
         ArrayList<GroupDTO> allUsersFromAllMyGroups = new ArrayList<>();
         GroupFactory groupFactory = new GroupFactory();
 
-        for (Long group : groups){
+        for (long group : groups) {
             allUsersFromAllMyGroups.add(groupFactory.getGroupById(group));
         }
 
         return allUsersFromAllMyGroups;
     }
 
-    public ArrayList<UserDTO> getAllUsers(){
-        String sql = "select id as userid from css.users";
+    public ArrayList<UserDTO> getAllUsers() {
+        String sql = "select id,name from css.users";
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -112,20 +111,21 @@ public class UserFactory extends Connection {
             preparedStatement = setupPreparedStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
-                userIds.add(resultSet.getLong("userid"));
-            }
-            for (Long id : userIds){
-                allUsers.add(this.getUser(id));
+            while (resultSet.next()) {
+                UserDTO nextUser = new UserDTO();
+                nextUser.setId(resultSet.getLong("id"));
+                nextUser.setName(resultSet.getString("name"));
+                allUsers.add(nextUser);
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         } finally {
             closeConnections(resultSet, preparedStatement);
         }
         return allUsers;
     }
+
 
 }
 
