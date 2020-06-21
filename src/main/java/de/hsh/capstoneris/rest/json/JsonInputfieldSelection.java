@@ -1,6 +1,8 @@
 package de.hsh.capstoneris.rest.json;
 
-public class JsonInputfieldSelections {
+import java.util.Objects;
+
+public class JsonInputfieldSelection {
     public JsonUser user;
     public int start;
     public int end;
@@ -29,12 +31,25 @@ public class JsonInputfieldSelections {
         this.end = end;
     }
 
-    public JsonInputfieldSelections() {
+    public JsonInputfieldSelection() {
     }
 
-    public JsonInputfieldSelections(JsonUser user, int start, int end) {
+    public JsonInputfieldSelection(JsonUser user, int start, int end) {
         this.user = user;
         this.start = start;
         this.end = end;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JsonInputfieldSelection that = (JsonInputfieldSelection) o;
+        return Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user);
     }
 }
