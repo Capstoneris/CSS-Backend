@@ -37,6 +37,25 @@ SET default_table_access_method = heap;
 -- Name: groups; Type: TABLE; Schema: css; Owner: css-db
 --
 
+create TABLE css.questions (
+    id integer NOT NULL,
+    question character varying,
+    active boolean
+);
+
+create sequence css.questions_id_seq
+    AS integer
+    START with 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+alter table css.questions_id_seq OWNER TO "css-db";
+alter sequence css.questions_id_seq OWNED BY css.questions.id;
+
+alter table css.questions OWNER TO "css-db";
+
 create TABLE css.groups (
     id integer NOT NULL,
     title character varying
@@ -249,6 +268,13 @@ COPY css.groups (id, title) FROM stdin;
 5	CustomerB
 \.
 
+COPY css.questions (id, question, active) FROM stdin;
+1	How would you rate your general experience?	true
+2	Rate the support employee!	false
+3	Has your problem been solved?	true
+4	How professional was the support employee?	true
+5	Would you recommend the session share feature to your colleagues?	true
+\.
 
 --
 -- TOC entry 2957 (class 0 OID 32815)

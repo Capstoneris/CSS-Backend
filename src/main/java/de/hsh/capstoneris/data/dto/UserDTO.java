@@ -61,7 +61,7 @@ public class UserDTO {
     }
 
     public String toString() {
-        return "{\"id\": \"" + this.id + "\",\"name\":\"" + this.name + "\"}";
+        return "{\"id\": \"" + this.id + "\",\"username\":\"" + this.name + "\"}";
     }
 
     @Override

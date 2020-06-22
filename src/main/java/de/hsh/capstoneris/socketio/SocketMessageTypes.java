@@ -14,6 +14,7 @@ public class SocketMessageTypes {
     public static final String SERVER_CHAT_MESSAGE = "chat-message";
     public static final String INPUTFIELD_CHANGED = "inputfield-changed";
     public static final String SESSION_LEFT = "session-left";
+    public static final String RATING_QUESTIONS = "rating-questions";
 
     // Client-Message-Types
     public static final String CLIENT_CHAT_MESSAGE = "send-chat-message";
@@ -23,6 +24,7 @@ public class SocketMessageTypes {
     public static final String LOGIN = "login";
     public static final String START_SESSION = "start-session";
     public static final String JOIN_SESSION = "join-session";
+    public static final String RATING_ANSWERS = "rating-answers";
 
     // Error-Message Strings
     public static final String NOT_LOGGED_IN = "Login Check failed!";
