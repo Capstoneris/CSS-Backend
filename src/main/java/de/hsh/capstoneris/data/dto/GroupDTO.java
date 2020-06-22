@@ -32,12 +32,16 @@ public class GroupDTO {
         this.users = users;
     }
 
-    public void addUser(UserDTO user){
+    public void addUser(UserDTO user) {
         this.users.add(user);
     }
 
-    public void removeUser(UserDTO user){
+    public void removeUser(UserDTO user) {
         this.users.remove(user);
+    }
+
+    public String toString() {
+        return "{\"id\": \"" + this.id + "\",\"title\":\"" + this.title + "\"}";
     }
 }
 

@@ -61,12 +61,16 @@ public class UserDTO {
     }
 
     public String toString() {
+        return "{\"id\": \"" + this.id + "\",\"username\":\"" + this.name + "\",\"groups\":" + this.groups + "}";
+    }
+
+    private String toStringPrivate() {
         return "{\"id\": \"" + this.id + "\",\"username\":\"" + this.name + "\"}";
     }
 
     @Override
     public boolean equals(Object o) {
-        return this.toString().equals(o.toString());
+        return this.toStringPrivate().equals(((UserDTO) o).toStringPrivate());
     }
 
 

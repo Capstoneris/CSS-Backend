@@ -80,7 +80,14 @@ public class UserFactory extends Connection {
             dummyGroup = groupFactory.getGroupById(group);
             for (UserDTO userInThisGroup : dummyGroup.getUsers()) {
                 if (!(allUsersFromMyGroups.contains(userInThisGroup))) {
+                    userInThisGroup.addGroup(group);
                     allUsersFromMyGroups.add(userInThisGroup);
+                } else {
+                    for (UserDTO inGroup : allUsersFromMyGroups) {
+                        if (inGroup.getName().equals(userInThisGroup.getName())) {
+                            inGroup.addGroup(group);
+                        }
+                    }
                 }
             }
         }
