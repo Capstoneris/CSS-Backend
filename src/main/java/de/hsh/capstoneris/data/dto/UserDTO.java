@@ -61,7 +61,12 @@ public class UserDTO {
     }
 
     public String toString() {
-        return "{\"id\": \"" + this.id + "\",\"username\":\"" + this.name + "\",\"groups\":" + this.groups + "}";
+        StringBuilder groupString = new StringBuilder();
+        groupString.append("\"" + groups.get(0) + "\"");
+        for (int i = 1; i < groups.size(); i++) {
+            groupString.append(",\"" + groups.get(i) + "\"");
+        }
+        return "{\"id\": \"" + this.id + "\",\"username\":\"" + this.name + "\",\"groups\":[" + groupString + "]}";
     }
 
     private String toStringPrivate() {
