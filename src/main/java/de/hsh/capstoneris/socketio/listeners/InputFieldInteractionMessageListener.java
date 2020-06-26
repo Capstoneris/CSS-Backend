@@ -43,6 +43,7 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
             Logger.log(Service.SOCKET, "Working on changing inputfield for " + changingUser.getUsername());
             String fieldId = inputFieldInteractionMessage.fieldId;
             SharedSession session = changingUser.getCurrentSession();
+            socketIOClient.leaveRoom(session.getRoom().getName());
             JsonInputfieldState state = session.getInputfieldStateIfExists(fieldId);
             if (state == null) {
                 Logger.log(Service.SOCKET, "Inputfield " + fieldId + " not yet existing in the manager, creating...");
@@ -51,15 +52,24 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
                     newValue = inputFieldInteractionMessage.newValue;
                 }
                 JsonUser changingUserJson = new JsonUser(changingUser);
-                state = new JsonInputfieldState(fieldId, newValue, new JsonInputfieldSelection[]{new JsonInputfieldSelection(changingUserJson, inputFieldInteractionMessage.selectionStart, inputFieldInteractionMessage.selectionEnd)});
+                ArrayList<JsonInputfieldState> changedSelections = new ArrayList<>();
                 for (JsonInputfieldState inputfieldState : session.getInputFieldStates()) {
                     ArrayList<JsonInputfieldSelection> newSelections = new ArrayList<>();
                     for (JsonInputfieldSelection selection : inputfieldState.selections) {
                         if (!selection.user.username.equals(changingUser.getUsername())) {
                             newSelections.add(selection);
+                        } else {
+                            changedSelections.add(inputfieldState);
                         }
                     }
                     inputfieldState.selections = newSelections.toArray(new JsonInputfieldSelection[0]);
+                }
+                state = new JsonInputfieldState(fieldId, newValue, new JsonInputfieldSelection[]{new JsonInputfieldSelection(changingUserJson, inputFieldInteractionMessage.selectionStart, inputFieldInteractionMessage.selectionEnd)});
+                for (JsonInputfieldState inputfieldState : changedSelections) {
+                    socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(
+                            SocketMessageTypes.INPUTFIELD_CHANGED,
+                            new InputfieldChangedMessage(new JsonUser(changingUser), inputfieldState)
+                    );
                 }
                 session.getInputFieldStates().add(state);
                 Logger.log(Service.SOCKET, "Sending value of inputfield " + fieldId + " to all users");
@@ -69,25 +79,36 @@ public class InputFieldInteractionMessageListener implements DataListener<InputF
                         new InputfieldChangedMessage(changingUserJson, state)
                 );
             } else {
+                ArrayList<JsonInputfieldState> changedSelections = new ArrayList<>();
                 for (JsonInputfieldState inputfieldState : session.getInputFieldStates()) {
                     ArrayList<JsonInputfieldSelection> newSelections = new ArrayList<>();
-                    if (inputfieldState.fieldId.equals(state.fieldId)) {
-                        newSelections.add(new JsonInputfieldSelection(new JsonUser(changingUser), inputFieldInteractionMessage.selectionStart, inputFieldInteractionMessage.selectionEnd));
-                    }
 
                     for (JsonInputfieldSelection selection : inputfieldState.selections) {
                         if (!selection.user.username.equals(changingUser.getUsername())) {
                             newSelections.add(selection);
+                        } else {
+                            changedSelections.add(inputfieldState);
                         }
                     }
+
+                    if (inputfieldState.fieldId.equals(state.fieldId)) {
+                        newSelections.add(new JsonInputfieldSelection(new JsonUser(changingUser), inputFieldInteractionMessage.selectionStart, inputFieldInteractionMessage.selectionEnd));
+                    }
+
                     inputfieldState.selections = newSelections.toArray(new JsonInputfieldSelection[0]);
                 }
+                for (JsonInputfieldState inputfieldState : changedSelections) {
+                    socketIOServer.getRoomOperations(session.getRoom().getName()).sendEvent(
+                            SocketMessageTypes.INPUTFIELD_CHANGED,
+                            new InputfieldChangedMessage(new JsonUser(changingUser), inputfieldState)
+                    );
+                }
                 Logger.log(Service.SOCKET, "Comparing old values (" + state.value + " == " + inputFieldInteractionMessage.getOldValue() + ")");
-                if (inputFieldInteractionMessage.getOldValue().equals(state.value)) {
+                if ((inputFieldInteractionMessage.getOldValue() == null && state.value == null) || inputFieldInteractionMessage.getOldValue().equals(state.value)) {
                     Logger.log(Service.SOCKET, "Change accepted. Setting new value " + inputFieldInteractionMessage.newValue);
                     state.value = inputFieldInteractionMessage.newValue;
 
-                    socketIOClient.leaveRoom(session.getRoom().getName());
+
                 } else {
                     Logger.log(Service.SOCKET, "Sending old value " + state.value + " to all users.");
                 }
