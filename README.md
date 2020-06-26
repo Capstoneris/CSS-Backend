@@ -126,6 +126,14 @@ in your terminal to start the database.
     "user": "User",
     "start": "integer",
     "end": "integer"
+  },
+  "Question": {
+    "id": "integer",
+    "question": "string"
+  },
+  "Answer": {
+    "questionId": "integer",
+    "rating": "integer"
   }
 }
 ```
@@ -161,6 +169,10 @@ in your terminal to start the database.
     "leave-session": {},
     "kick-member": {
       "member": "User"
+    },
+    "rating-answers": {
+      "answers": "Answer[]",
+      "feedback": "string"
     }
   },
   "server-side": {
@@ -192,6 +204,9 @@ in your terminal to start the database.
     "error": {
       "status": "integer",
       "message": "string"
+    },
+    "rating-questions": {
+      "questions": "Question[]"
     }
   }
 }
